@@ -43,12 +43,12 @@ python3 src/convert.py src/NYCoolingHeating.dc.html index.html
 - **Dark mode.** Colours are CSS custom properties on `:root`, overridden under
   `prefers-color-scheme: dark` and under `[data-theme="dark"]`. Sections that are
   dark by design stay dark in both themes.
-- **Responsive.** Breakpoints at 860px, 400px and 360px. At 860px multi-column
-  grids collapse to one column, display type scales down, the page gutter drops
-  to 16px, the comparison table restacks as cards, and the header becomes a
-  wordmark with a disclosure menu beside it. The two narrower breakpoints shrink
-  the menu button to its icon and then the wordmark, so the header stays on one
-  row down to 320px.
+- **Responsive.** Breakpoints at 860px, 400px and 360px. Below 860px the page
+  takes the phone layout: a pinned masthead of call button, centred wordmark and
+  menu button; a stacked hero with full-width actions; the proof stats two-up;
+  the comparison table restacked as cards; 44px section bands and a 16px gutter.
+  The wordmark, the headline and the stat figures are sized in `vw` so each one
+  fits its own box from 320px upward rather than relying on fixed steps.
 - **Accessibility.** Real `<button>`, `<a>` and `<label>` elements throughout, the
   comparison is a proper `<table>` with scoped headers, icon-only controls carry
   `aria-label`, and animation is disabled under `prefers-reduced-motion`.

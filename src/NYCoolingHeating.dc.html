@@ -92,40 +92,58 @@
       .dial-lbl-ok { opacity: 1; }
       .call-breathe { animation: none; box-shadow: 0 0 0 5px var(--ring); }
     }
-    /* The hamburger menu is phone-only; the full nav shows at desktop width. */
-    .mobnav { display: none; }
+    /* The call button and hamburger menu are phone-only; the full nav shows at desktop width. */
+    .mobnav, .mobcall { display: none; }
     /* Phone */
     @media (max-width: 860px) {
       .pg [style*="max-width: 1280px"] { padding-left: 16px !important; padding-right: 16px !important; }
-      .pg section > div, .pg footer > div { padding-top: 54px !important; padding-bottom: 54px !important; }
+      .pg section > div, .pg footer > div { padding-top: 44px !important; padding-bottom: 44px !important; }
       .pg [style*="grid-template-columns: repeat(4"],
       .pg [style*="grid-template-columns: repeat(3"],
       .pg [style*="grid-template-columns: repeat(2"] { grid-template-columns: minmax(0, 1fr) !important; }
       .pg h1 { font-size: 38px !important; }
       .pg h2 { font-size: 32px !important; }
       .pg h3 { font-size: 24px !important; }
-      .pg [style*="font-size: 38px"] { font-size: 25px !important; }
       .pg [style*="letter-spacing: .34em"] { letter-spacing: .22em !important; }
       /* Status strip: one tight line — dispatcher note and phone only. */
       .pg .statusbar > div { padding: 7px 16px !important; flex-wrap: nowrap !important; gap: 10px !important; font-size: 12.5px; }
       .pg .statusbar .tail, .pg .statusbar a[href^="mailto:"] { display: none !important; }
       .pg .statusbar strong, .pg .statusbar a { white-space: nowrap; }
       .pg .statusbar a[href^="tel:"] { min-height: 30px !important; }
-      /* Masthead: logo on the left, menu button on the right, one row. */
-      .pg .mast { flex-wrap: nowrap !important; justify-content: space-between !important; gap: 12px !important; padding: 10px 16px !important; }
+      /* Masthead: call button, centred wordmark, menu button — pinned to the top. */
+      .pg header { position: sticky; top: 0; z-index: 50; }
+      .pg header .mast { flex-wrap: nowrap !important; justify-content: space-between !important; gap: 10px !important; padding: 8px 14px !important; }
       .pg .nav-l, .pg .nav-r { display: none !important; }
-      .pg .brand { text-align: left !important; }
+      .pg .brand { flex: 1 1 auto; min-width: 0; text-align: center !important; }
+      .pg .mobcall { order: -1; box-sizing: border-box; display: grid; place-items: center; flex: none; width: 44px; height: 44px; min-height: 0; padding: 0 !important; border: 1.5px solid var(--line); border-radius: 5px; color: var(--ink); }
+      .pg .mobcall svg { width: 18px; height: 18px; }
       .pg .mobnav { display: block; flex: none; }
-      .pg .mobnav > summary { list-style: none; display: flex; align-items: center; gap: 7px; min-height: 44px; padding: 0 13px; border: 1.5px solid var(--line); border-radius: 4px; font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); cursor: pointer; }
+      .pg .mobnav > summary { box-sizing: border-box; list-style: none; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1.5px solid var(--line); border-radius: 5px; color: var(--ink); cursor: pointer; }
       .pg .mobnav > summary::-webkit-details-marker { display: none; }
-      .pg .mobnav > summary svg { flex: none; width: 18px; height: 18px; }
+      .pg .mobnav > summary span { display: none; }
+      .pg .mobnav > summary svg { flex: none; width: 19px; height: 19px; }
       .pg .mobnav[open] > summary { background: var(--surface-2); }
       .pg .mobnav-panel { position: absolute; left: 0; right: 0; top: 100%; z-index: 40; display: flex !important; flex-direction: column; gap: 0 !important; background: var(--surface); border-bottom: 1px solid var(--line); box-shadow: 0 16px 32px rgba(0, 0, 0, .16); }
       .pg .mobnav-panel a { display: block; min-height: 0; padding: 15px 16px !important; border-top: 1px solid var(--line); color: var(--ink); font-size: 16.5px; font-weight: 600; text-decoration: none; }
       .pg .mobnav-panel a.mobnav-cta { color: var(--brand-accent); font-weight: 700; }
+      .pg .brand [style*="font-size: 38px"] { font-size: min(23px, calc(9.3vw - 13px)) !important; }
+      .pg .brand [style*="letter-spacing: .34em"] { font-size: min(11px, calc(4.2vw - 5px)) !important; }
+      .pg .brand [style*="letter-spacing: .22em"] { font-size: min(9px, calc(3.4vw - 4px)) !important; }
+      /* Hero: big stacked headline, full-width actions, trust points in a column. */
+      .pg #top > div { padding: 26px 16px 28px !important; gap: 26px !important; }
+      .pg .heroeyebrow { margin-bottom: 12px !important; font-size: 11.5px !important; letter-spacing: .18em !important; }
+      .pg #top h1 { font-size: min(44px, calc(11.1vw - 4px)) !important; line-height: .86 !important; }
+      .pg .herorule { width: 120px !important; height: 4px !important; margin-top: 18px !important; }
+      .pg .herolede { margin-top: 16px !important; font-size: 16.5px !important; line-height: 1.5 !important; }
+      .pg .herocta { flex-direction: column; flex-wrap: nowrap !important; gap: 10px !important; margin-top: 22px !important; }
+      .pg .herocta a { justify-content: center; text-align: center; padding: 18px 20px !important; font-size: 17px !important; }
+      .pg .herotrust { flex-direction: column; flex-wrap: nowrap !important; gap: 11px !important; margin-top: 22px !important; padding-top: 18px !important; font-size: 14.5px !important; }
+      /* Proof stats stay two-up rather than becoming a column of four. */
+      .pg .proof { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 22px 16px !important; padding: 28px 16px !important; }
+      .pg .proof b { font-size: min(34px, calc(8.3vw - 6px)) !important; overflow-wrap: anywhere; }
+      .pg .proof span { font-size: 13.5px; }
       .pg [style*="font-size: 52px"], .pg [style*="font-size: 44px"] { font-size: 32px !important; }
       .pg [style*="font-size: 21px"], .pg [style*="font-size: 20px"], .pg [style*="font-size: 19px"] { font-size: 17px !important; }
-      .pg [style*="font-size: 136px"] { font-size: 38px !important; }
       .pg [style*="font-size: 54px"] { font-size: 30px !important; }
       .pg [style*="padding: 44px"] { padding: 26px !important; }
       .pg [style*="padding: 40px"] { padding: 24px !important; }
@@ -158,18 +176,13 @@
       .pg [style*="gap: 64px"], .pg [style*="gap: 56px"] { gap: 36px !important; }
       .pg [style*="width: 124px"] { width: 96px !important; height: 96px !important; }
     }
-    /* Narrow phones: the wordmark needs the room, so the menu button loses its label. */
+    /* Narrow phones: the status strip tightens too. */
     @media (max-width: 400px) {
-      .pg .mobnav > summary span { display: none; }
-      .pg .mobnav > summary { padding: 0 12px; }
       .pg .statusbar > div { font-size: 11.5px; }
     }
-    /* Smallest phones still in use (320px): the wordmark comes down again. */
+    /* Smallest phones still in use (320px): tighten the masthead gutter. */
     @media (max-width: 360px) {
-      .pg .brand [style*="font-size: 38px"] { font-size: 21px !important; }
-      .pg .brand [style*="letter-spacing: .34em"] { font-size: 11px !important; }
-      .pg .brand [style*="letter-spacing: .22em"] { font-size: 9px !important; }
-      .pg .mast { padding: 10px 12px !important; gap: 8px !important; }
+      .pg header .mast { padding: 8px 12px !important; gap: 8px !important; }
     }
   </style>
 </helmet>
@@ -211,6 +224,9 @@
         </nav>
         <a href="#quote" style="display: inline-block; padding: 14px 20px; border: 1.5px solid var(--ink); border-radius: 4px; color: var(--ink); font-weight: 700; font-size: 15.5px; text-decoration: none">Get a free estimate</a>
       </div>
+      <a class="mobcall" href="tel:+15165170005" aria-label="Call {{phone}}">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"></path></svg>
+      </a>
       <details class="mobnav">
         <summary aria-label="Menu">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
@@ -234,19 +250,19 @@
     <div style="max-width: 1280px; margin: 0 auto; padding: 76px 40px 92px; display: flex; flex-wrap: wrap; gap: 64px; align-items: start">
 
       <div style="flex: 999 1 540px; min-width: 0">
-        <p style="margin: 0 0 22px; font-size: 14px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: #B5B2AE">HVAC, boilers and plumbing across New York City</p>
+        <p class="heroeyebrow" style="margin: 0 0 22px; font-size: 14px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: #B5B2AE">HVAC, boilers and plumbing across New York City</p>
         <h1 style="margin: 0; font-weight: 800; font-size: 136px; line-height: .84; letter-spacing: -.005em; text-transform: uppercase">
           <span style="display: block; color: {{primary}}">Any hour.</span>
           <span style="display: block; color: {{secondaryOnDark}}">Any system.</span>
           <span style="display: block">One flat price.</span>
         </h1>
-        <div style="display: flex; width: 220px; height: 5px; margin-top: 34px" aria-hidden="true">
+        <div class="herorule" style="display: flex; width: 220px; height: 5px; margin-top: 34px" aria-hidden="true">
           <span style="flex: 1; background: {{secondary}}"></span>
           <span style="flex: 1; background: {{primary}}"></span>
         </div>
-        <p style="margin: 28px 0 0; font-size: 21px; line-height: 1.55; color: #D6D3CF; max-width: 50ch">A live dispatcher answers around the clock, and there's no extra charge for nights, weekends or holidays. We charge by the job rather than the hour — so the price is agreed before anyone picks up a tool.</p>
+        <p class="herolede" style="margin: 28px 0 0; font-size: 21px; line-height: 1.55; color: #D6D3CF; max-width: 50ch">A live dispatcher answers around the clock, and there's no extra charge for nights, weekends or holidays. We charge by the job rather than the hour — so the price is agreed before anyone picks up a tool.</p>
 
-        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px">
+        <div class="herocta" style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px">
           <a href="tel:+15165170005" class="call-breathe" style="--ring: {{ringColor}}; display: inline-flex; align-items: center; gap: 10px; padding: 19px 28px; border-radius: 4px; background: {{primary}}; color: #FFFFFF; font-weight: 700; font-size: 17px; text-decoration: none">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 19px; height: 19px"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"></path></svg>
             Call {{phone}}
@@ -254,7 +270,7 @@
           <a href="#quote" style="display: inline-block; padding: 19px 28px; border: 1px solid rgba(255,255,255,.4); border-radius: 4px; color: #FFFFFF; font-weight: 700; font-size: 17px; text-decoration: none">Get a free estimate</a>
         </div>
 
-        <div style="display: flex; flex-wrap: wrap; gap: 30px; margin-top: 42px; padding-top: 26px; border-top: 1px solid rgba(255,255,255,.14); font-size: 15px; font-weight: 500; color: #D6D3CF">
+        <div class="herotrust" style="display: flex; flex-wrap: wrap; gap: 30px; margin-top: 42px; padding-top: 26px; border-top: 1px solid rgba(255,255,255,.14); font-size: 15px; font-weight: 500; color: #D6D3CF">
           <span style="display: flex; align-items: center; gap: 9px">
             <svg viewBox="0 0 24 24" fill="none" stroke="{{secondaryOnDark}}" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" style="width: 18px; height: 18px"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.5V12l3.2 2"></path></svg>
             24/7 emergency service, no overtime charge
@@ -327,7 +343,7 @@
 
   <!-- Proof row -->
   <section style="border-bottom: 1px solid var(--line)">
-    <div style="max-width: 1280px; margin: 0 auto; padding: 44px 40px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px">
+    <div class="proof" style="max-width: 1280px; margin: 0 auto; padding: 44px 40px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px">
       <div><b style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 52px; font-weight: 800; line-height: 1; text-transform: uppercase">24/7</b><span style="font-size: 15px; color: var(--ink-soft)">Live dispatchers around the clock — no overtime, weekend or holiday surcharge</span></div>
       <div><b style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 52px; font-weight: 800; line-height: 1; text-transform: uppercase">Flat rate</b><span style="font-size: 15px; color: var(--ink-soft)">Charged by the job, never by the hour, and agreed before work starts</span></div>
       <div><b style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 52px; font-weight: 800; line-height: 1; text-transform: uppercase">5 boroughs</b><span style="font-size: 15px; color: var(--ink-soft)">Plus Long Island, Nassau, Suffolk, Westchester and parts of New Jersey</span></div>
