@@ -1,0 +1,886 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>New York Cooling &amp; Heating Services — landing page</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --page: #FFFFFF;
+      --surface: #FFFFFF;
+      --surface-2: #F5F3F0;
+      --surface-3: #EBE7E2;
+      --line: #E6E2DE;
+      --ink: #1C1C1F;
+      --ink-mid: #33333A;
+      --ink-soft: #6B6B72;
+      --tint-neutral: #EFEBE6;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --page: #121214;
+        --surface: #1C1C1F;
+        --surface-2: #19191B;
+        --surface-3: #242427;
+        --line: rgba(255, 255, 255, .15);
+        --ink: #ECEAE7;
+        --ink-mid: #D4D1CD;
+        --ink-soft: #A5A29E;
+        --tint-neutral: #2B2B2F;
+      }
+    }
+    :root[data-theme="dark"] {
+      --page: #121214;
+      --surface: #1C1C1F;
+      --surface-2: #19191B;
+      --surface-3: #242427;
+      --line: rgba(255, 255, 255, .15);
+      --ink: #ECEAE7;
+      --ink-mid: #D4D1CD;
+      --ink-soft: #A5A29E;
+      --tint-neutral: #2B2B2F;
+    }
+    body { margin: 0; background: var(--page); font-family: 'Barlow', -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+    .pg { background: var(--page) !important; color: var(--ink) !important; }
+    .pg input::placeholder { color: var(--ink-soft); opacity: 1; }
+    h1, h2, h3 { font-family: 'Barlow Condensed', 'Arial Narrow', 'Helvetica Neue', sans-serif; overflow-wrap: break-word; }
+    a { color: inherit; }
+    a:hover { color: inherit; }
+    @keyframes call-breathe {
+      0%, 100% { box-shadow: 0 0 0 0 var(--ring), 0 0 0 0 var(--ring); transform: scale(1); }
+      50% { box-shadow: 0 0 0 7px var(--ring), 0 0 22px 4px var(--ring); transform: scale(1.025); }
+    }
+    .call-breathe { animation: call-breathe 2.6s ease-in-out infinite; will-change: transform, box-shadow; }
+    .call-breathe:hover { animation-play-state: paused; }
+    /* Thermostat dial: swings cold -> hot -> settles at 70 */
+    @property --temp { syntax: '<integer>'; inherits: false; initial-value: 70; }
+    @keyframes dial-swing {
+      0% { transform: rotate(-112deg); }
+      30% { transform: rotate(112deg); }
+      54%, 90% { transform: rotate(0deg); }
+      100% { transform: rotate(-112deg); }
+    }
+    @keyframes dial-temp {
+      0% { --temp: 58; }
+      30% { --temp: 84; }
+      54%, 90% { --temp: 70; }
+      100% { --temp: 58; }
+    }
+    @keyframes dial-cold { 0%, 12% { opacity: 1; } 17%, 95% { opacity: 0; } 100% { opacity: 1; } }
+    @keyframes dial-hot { 0%, 13% { opacity: 0; } 19%, 36% { opacity: 1; } 42%, 100% { opacity: 0; } }
+    @keyframes dial-ok { 0%, 44% { opacity: 0; } 52%, 92% { opacity: 1; } 97%, 100% { opacity: 0; } }
+    .dial-needle { position: absolute; inset: 0; animation: dial-swing 8s cubic-bezier(.45,.05,.35,1) infinite; }
+    .dial-temp { animation: dial-temp 8s cubic-bezier(.45,.05,.35,1) infinite; counter-reset: t var(--temp); }
+    .dial-temp::after { content: counter(t) "°"; }
+    .dial-lbl { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
+    .dial-lbl-cold { animation: dial-cold 8s linear infinite; }
+    .dial-lbl-hot { animation: dial-hot 8s linear infinite; }
+    .dial-lbl-ok { animation: dial-ok 8s linear infinite; }
+    @media (prefers-reduced-motion: reduce) {
+      .dial-needle, .dial-temp, .dial-lbl { animation: none; }
+      .dial-temp { --temp: 70; }
+      .dial-lbl-ok { opacity: 1; }
+      .call-breathe { animation: none; box-shadow: 0 0 0 5px var(--ring); }
+    }
+    /* Phone */
+    @media (max-width: 860px) {
+      .pg [style*="max-width: 1280px"] { padding-left: 16px !important; padding-right: 16px !important; }
+      .pg section > div, .pg footer > div { padding-top: 54px !important; padding-bottom: 54px !important; }
+      .pg [style*="grid-template-columns: repeat(4"],
+      .pg [style*="grid-template-columns: repeat(3"],
+      .pg [style*="grid-template-columns: repeat(2"] { grid-template-columns: minmax(0, 1fr) !important; }
+      .pg h1 { font-size: 38px !important; }
+      .pg h2 { font-size: 32px !important; }
+      .pg h3 { font-size: 24px !important; }
+      .pg [style*="font-size: 38px"] { font-size: 25px !important; }
+      .pg [style*="letter-spacing: .34em"] { letter-spacing: .22em !important; }
+      .pg header > div > div { justify-content: center !important; }
+      .pg header > div > a { margin: 4px 0 !important; }
+      .pg [style*="font-size: 52px"], .pg [style*="font-size: 44px"] { font-size: 32px !important; }
+      .pg [style*="font-size: 21px"], .pg [style*="font-size: 20px"], .pg [style*="font-size: 19px"] { font-size: 17px !important; }
+      .pg [style*="font-size: 136px"] { font-size: 38px !important; }
+      .pg [style*="font-size: 54px"] { font-size: 30px !important; }
+      .pg [style*="padding: 44px"] { padding: 26px !important; }
+      .pg [style*="padding: 40px"] { padding: 24px !important; }
+      .pg [style*="padding: 36px"], .pg [style*="padding: 30px"] { padding: 22px !important; }
+      .pg [style*="padding: 18px 40px"] { padding: 14px 16px !important; }
+      .pg [style*="position: sticky"] { padding-left: 16px !important; padding-right: 16px !important; gap: 14px !important; }
+      .pg [style*="gap: 64px"], .pg [style*="gap: 56px"] { gap: 36px !important; }
+      .pg header nav { justify-content: center !important; gap: 4px 20px !important; }
+      .pg header nav a { min-height: 44px; display: inline-flex; align-items: center; }
+      .pg table { min-width: 560px !important; }
+      .pg [style*="width: 124px"] { width: 96px !important; height: 96px !important; }
+    }
+  </style>
+</helmet>
+
+<div class="pg" style="width: 100%; background: var(--page); color: var(--ink); font-size: 17px; line-height: 1.6">
+
+  <!-- Status strip -->
+  <div style="background: {{dark}}; color: #B5B2AE; font-size: 13.5px; font-weight: 500; border-bottom: 1px solid rgba(255,255,255,.08)">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 10px 40px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between">
+      <div style="display: flex; align-items: center; gap: 8px">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: {{primary}}; display: inline-block" aria-hidden="true"></span>
+        <strong style="color: #FFFFFF">Live dispatchers, 24 hours a day</strong>
+        <span>— no overtime, weekend or holiday charge</span>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 20px"><a href="mailto:coolingheatingnewyork@gmail.com" style="text-decoration: none">coolingheatingnewyork@gmail.com</a>
+        <a href="tel:+15165170005" style="text-decoration: none; color: #FFFFFF; font-weight: 600">{{phone}}</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Masthead -->
+  <header style="background: var(--surface); border-bottom: 1px solid var(--line)">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 18px 40px; display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; justify-content: center">
+      <nav aria-label="Main" style="flex: 1 1 320px; display: flex; flex-wrap: wrap; gap: 28px; justify-content: flex-start; font-size: 15.5px; font-weight: 600; color: var(--ink)">
+        <a href="#services" style="text-decoration: none">Services</a>
+        <a href="#buildings" style="text-decoration: none">PTAC &amp; buildings</a>
+        <a href="#seasonal" style="text-decoration: none">Seasonal care</a>
+      </nav>
+      <a href="#top" aria-label="New York Cooling and Heating Services — home" style="flex: none; display: block; text-align: center; text-decoration: none">
+        <span style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: .34em; text-transform: uppercase; color: {{primaryOnLight}}">New York</span>
+        <span style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 38px; font-weight: 800; line-height: .92; text-transform: uppercase; color: var(--ink)">Cooling &amp; Heating</span>
+        <span style="display: block; font-family: 'Barlow', sans-serif; font-size: 10.5px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--ink-soft)">Services · Five Boroughs</span>
+      </a>
+      <div style="flex: 1 1 320px; display: flex; flex-wrap: wrap; gap: 28px; align-items: center; justify-content: flex-end; font-size: 15.5px; font-weight: 600; color: var(--ink)">
+        <nav aria-label="More" style="display: flex; flex-wrap: wrap; gap: 28px">
+          <a href="#brands" style="text-decoration: none">Brands</a>
+          <a href="#reviews" style="text-decoration: none">Reviews</a>
+          <a href="#faq" style="text-decoration: none">FAQ</a>
+        </nav>
+        <a href="#quote" style="display: inline-block; padding: 14px 20px; border: 1.5px solid var(--ink); border-radius: 4px; color: var(--ink); font-weight: 700; font-size: 15.5px; text-decoration: none">Get a free estimate</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="top" style="background: {{dark}}; color: #FFFFFF">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 76px 40px 92px; display: flex; flex-wrap: wrap; gap: 64px; align-items: start">
+
+      <div style="flex: 999 1 540px; min-width: 0">
+        <p style="margin: 0 0 22px; font-size: 14px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: #B5B2AE">HVAC, boilers and plumbing across New York City</p>
+        <h1 style="margin: 0; font-weight: 800; font-size: 136px; line-height: .84; letter-spacing: -.005em; text-transform: uppercase">
+          <span style="display: block; color: {{primary}}">Any hour.</span>
+          <span style="display: block; color: {{secondaryOnDark}}">Any system.</span>
+          <span style="display: block">One flat price.</span>
+        </h1>
+        <div style="display: flex; width: 220px; height: 5px; margin-top: 34px" aria-hidden="true">
+          <span style="flex: 1; background: {{secondary}}"></span>
+          <span style="flex: 1; background: {{primary}}"></span>
+        </div>
+        <p style="margin: 28px 0 0; font-size: 21px; line-height: 1.55; color: #D6D3CF; max-width: 50ch">A live dispatcher answers around the clock, and there's no extra charge for nights, weekends or holidays. We charge by the job rather than the hour — so the price is agreed before anyone picks up a tool.</p>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px">
+          <a href="tel:+15165170005" class="call-breathe" style="--ring: {{ringColor}}; display: inline-flex; align-items: center; gap: 10px; padding: 19px 28px; border-radius: 4px; background: {{primary}}; color: #FFFFFF; font-weight: 700; font-size: 17px; text-decoration: none">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 19px; height: 19px"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"></path></svg>
+            Call {{phone}}
+          </a>
+          <a href="#quote" style="display: inline-block; padding: 19px 28px; border: 1px solid rgba(255,255,255,.4); border-radius: 4px; color: #FFFFFF; font-weight: 700; font-size: 17px; text-decoration: none">Get a free estimate</a>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 30px; margin-top: 42px; padding-top: 26px; border-top: 1px solid rgba(255,255,255,.14); font-size: 15px; font-weight: 500; color: #D6D3CF">
+          <span style="display: flex; align-items: center; gap: 9px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="{{secondaryOnDark}}" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" style="width: 18px; height: 18px"><circle cx="12" cy="12" r="9"></circle><path d="M12 7.5V12l3.2 2"></path></svg>
+            24/7 emergency service, no overtime charge
+          </span>
+          <span style="display: flex; align-items: center; gap: 9px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="{{secondaryOnDark}}" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" style="width: 18px; height: 18px"><path d="M12 21s7.5-3.9 7.5-9.6V5.2L12 2.5 4.5 5.2v6.2C4.5 17.1 12 21 12 21z"></path></svg>
+            NATE &amp; EPA-certified technicians
+          </span>
+          <span style="display: flex; align-items: center; gap: 9px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="{{secondaryOnDark}}" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" style="width: 18px; height: 18px"><path d="M4.5 12.5 9.5 17.5 19.5 7"></path></svg>
+            Diagnostic waived on approved work
+          </span>
+        </div>
+      </div>
+
+      <!-- Booking panel -->
+      <div id="quote" style="flex: 1 1 440px; min-width: 0; border-radius: 6px; overflow: hidden; box-shadow: 0 40px 90px -40px rgba(0,0,0,.85)">
+        <div style="background: #2A2A2E; padding: 30px 32px; display: flex; flex-wrap: wrap; gap: 24px; align-items: center">
+          <div style="position: relative; width: 124px; height: 124px; flex: none">
+            <svg viewBox="0 0 200 200" aria-hidden="true" style="width: 124px; height: 124px; transform: rotate(135deg)">
+              <circle cx="100" cy="100" r="86" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="9" stroke-linecap="round" stroke-dasharray="405.3 540.4"></circle>
+              <circle cx="100" cy="100" r="86" fill="none" stroke="{{secondary}}" stroke-width="9" stroke-linecap="round" stroke-dasharray="190 540.4"></circle>
+              <circle cx="100" cy="100" r="86" fill="none" stroke="{{primary}}" stroke-width="9" stroke-linecap="round" stroke-dasharray="190 540.4" stroke-dashoffset="-215"></circle>
+            </svg>
+            <div class="dial-needle" aria-hidden="true">
+              <span style="position: absolute; top: 1px; left: 50%; width: 15px; height: 15px; margin-left: -7.5px; box-sizing: border-box; border-radius: 50%; background: #FFFFFF; border: 3px solid #2A2A2E; box-shadow: 0 0 0 2px rgba(255,255,255,.35), 0 0 14px 2px rgba(255,255,255,.45)"></span>
+            </div>
+            <div role="img" aria-label="Thermostat settling at 70 degrees" style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px">
+              <b class="dial-temp" style="font-family: 'Barlow Condensed', sans-serif; color: #FFFFFF; font-size: 38px; font-weight: 800; line-height: 1"></b>
+              <span style="position: relative; display: block; width: 76px; height: 13px; font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; line-height: 13px">
+                <span class="dial-lbl dial-lbl-cold" style="color: {{secondaryOnDark}}">Too cold</span>
+                <span class="dial-lbl dial-lbl-hot" style="color: {{primaryOnDark}}">Too hot</span>
+                <span class="dial-lbl dial-lbl-ok" style="color: #FFFFFF">Handled</span>
+              </span>
+            </div>
+          </div>
+          <div style="flex: 1 1 200px; min-width: 0">
+            <h3 style="margin: 0; color: #FFFFFF; font-size: 28px; font-weight: 700; line-height: 1.05; text-transform: uppercase">Tell us what's going on.</h3>
+            <p style="margin: 8px 0 0; color: #B5B2AE; font-size: 15px; line-height: 1.5">Thirty seconds here. A dispatcher calls you back to confirm a time — free quote, no obligation.</p>
+          </div>
+        </div>
+
+        <div style="background: var(--surface); padding: 26px 28px 30px; display: flex; flex-direction: column; gap: 12px">
+          <div role="group" aria-label="What's going on?" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 5px; overflow: hidden">
+            <sc-for list="{{issues}}" as="opt" hint-placeholder-count="4">
+              <button type="button" onClick="{{opt.pick}}" aria-pressed="{{opt.pressed}}" style="min-height: 52px; padding: 15px 16px; display: flex; align-items: center; gap: 10px; border: 0; margin: 0; text-align: left; font-family: inherit; font-weight: 600; font-size: 15.5px; cursor: pointer; transition: background .18s ease, color .18s ease, box-shadow .18s ease; color: {{opt.fg}}; background: {{opt.bg}}; box-shadow: {{opt.ring}}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; width: 18px; height: 18px"><path d="{{opt.icon}}"></path></svg>
+                <span>{{opt.label}}</span>
+              </button>
+            </sc-for>
+          </div>
+
+          <label for="n-name" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Your name</label>
+          <input id="n-name" type="text" placeholder="Your name" style="width: 100%; box-sizing: border-box; padding: 16px 15px; border: 1px solid var(--line); border-radius: 5px; background: var(--surface-2); font-family: inherit; font-size: 16px; font-weight: 500; color: var(--ink)">
+          <label for="n-phone" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Phone number</label>
+          <input id="n-phone" type="tel" placeholder="Phone number" style="width: 100%; box-sizing: border-box; padding: 16px 15px; border: 1px solid var(--line); border-radius: 5px; background: var(--surface-2); font-family: inherit; font-size: 16px; font-weight: 500; color: var(--ink)">
+          <label for="n-zip" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">ZIP code</label>
+          <input id="n-zip" type="text" placeholder="ZIP code" style="width: 100%; box-sizing: border-box; padding: 16px 15px; border: 1px solid var(--line); border-radius: 5px; background: var(--surface-2); font-family: inherit; font-size: 16px; font-weight: 500; color: var(--ink)">
+
+          <button type="button" style="width: 100%; padding: 19px 24px; border: 0; border-radius: 4px; background: var(--ink); color: var(--page); font-family: inherit; font-weight: 700; font-size: 17px; cursor: pointer">{{submitLabel}}</button>
+
+          <p style="margin: 4px 0 0; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13.5px; color: var(--ink-soft)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="{{secondaryOnLight}}" stroke-width="2.6" stroke-linecap="round" aria-hidden="true" style="width: 14px; height: 14px"><path d="M4.5 12.5 9.5 17.5 19.5 7"></path></svg>
+            Free quote. No obligation. Your details stay with us.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Proof row -->
+  <section style="border-bottom: 1px solid var(--line)">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 44px 40px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px">
+      <div><b style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 52px; font-weight: 800; line-height: 1; text-transform: uppercase">24/7</b><span style="font-size: 15px; color: var(--ink-soft)">Live dispatchers around the clock — no overtime, weekend or holiday surcharge</span></div>
+      <div><b style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 52px; font-weight: 800; line-height: 1; text-transform: uppercase">Flat rate</b><span style="font-size: 15px; color: var(--ink-soft)">Charged by the job, never by the hour, and agreed before work starts</span></div>
+      <div><b style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 52px; font-weight: 800; line-height: 1; text-transform: uppercase">5 boroughs</b><span style="font-size: 15px; color: var(--ink-soft)">Plus Long Island, Nassau, Suffolk, Westchester and parts of New Jersey</span></div>
+      <div><b style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 52px; font-weight: 800; line-height: 1; text-transform: uppercase">NATE + EPA</b><span style="font-size: 15px; color: var(--ink-soft)">Certified, licensed, fully insured and background-checked technicians</span></div>
+    </div>
+  </section>
+
+  <!-- Building ticker -->
+  <div style="background: var(--surface-2); border-bottom: 1px solid var(--line); overflow: hidden">
+    <div style="display: flex; gap: 40px; padding: 18px 40px; font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); white-space: nowrap">
+      <span>Co-ops</span><span style="color: {{primaryOnLight}}">/</span>
+      <span>Condos</span><span style="color: {{secondaryOnLight}}">/</span>
+      <span>Hotels</span><span style="color: {{primaryOnLight}}">/</span>
+      <span>Pre-war walk-ups</span><span style="color: {{secondaryOnLight}}">/</span>
+      <span>Brownstones</span><span style="color: {{primaryOnLight}}">/</span>
+      <span>Rentals</span><span style="color: {{secondaryOnLight}}">/</span>
+      <span>Offices</span><span style="color: {{primaryOnLight}}">/</span>
+      <span>Restaurants</span><span style="color: {{secondaryOnLight}}">/</span>
+      <span>Co-ops</span>
+    </div>
+  </div>
+
+  <!-- Services -->
+  <section id="services" style="border-bottom: 1px solid var(--line)">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 96px 40px">
+      <div style="max-width: 64ch">
+        <p style="margin: 0 0 14px; font-size: 14px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: {{primaryOnLight}}">What we do</p>
+        <h2 style="margin: 0; font-size: 76px; font-weight: 800; line-height: .92; text-transform: uppercase; text-wrap: balance">Cooling, heating, boilers, ducts, plumbing.</h2>
+        <p style="margin: 22px 0 0; font-size: 19px; color: var(--ink-soft); line-height: 1.55">Residential and commercial, in one crew — the AC that quits in a July heat wave, the boiler that quits in January, and the drain that backs up in between.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 64px; margin-top: 64px">
+        <div style="border-top: 4px solid {{secondary}}; padding-top: 28px">
+          <h3 style="margin: 0; font-size: 38px; font-weight: 800; line-height: 1; text-transform: uppercase">Cooling</h3>
+          <p style="margin: 10px 0 0; color: var(--ink-soft); font-size: 17px">Diagnosed on the spot, repaired to last, and cleaned so it runs cold and quiet all summer.</p>
+          <ul style="list-style: none; margin: 26px 0 0; padding: 0; display: flex; flex-direction: column">
+            <li style="border-top: 1px solid var(--line)"><a href="#quote" style="display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; text-decoration: none; font-weight: 600; font-size: 17px">AC repair &amp; 24/7 emergency<em style="font-style: normal; font-weight: 500; font-size: 14.5px; color: var(--ink-soft)">Live dispatch, day or night</em></a></li>
+            <li style="border-top: 1px solid var(--line)"><a href="#quote" style="display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; text-decoration: none; font-weight: 600; font-size: 17px">Installation &amp; replacement<em style="font-style: normal; font-weight: 500; font-size: 14.5px; color: var(--ink-soft)">Central, ductless, heat pump, package</em></a></li>
+            <li style="border-top: 1px solid var(--line)"><a href="#quote" style="display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; text-decoration: none; font-weight: 600; font-size: 17px">Maintenance &amp; tune-ups<em style="font-style: normal; font-weight: 500; font-size: 14.5px; color: var(--ink-soft)">Refrigerant, motor temps, voltage, filters</em></a></li>
+            <li style="border-top: 1px solid var(--line)"><a href="#quote" style="display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; text-decoration: none; font-weight: 600; font-size: 17px">Pre-season cleaning<em style="font-style: normal; font-weight: 500; font-size: 14.5px; color: var(--ink-soft)">Coils, drains and filters, before the rush</em></a></li>
+            <li style="border-top: 1px solid var(--line)"><a href="#quote" style="display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; text-decoration: none; font-weight: 600; font-size: 17px">Window, casement &amp; portable AC<em style="font-style: normal; font-weight: 500; font-size: 14.5px; color: var(--ink-soft)">Top-mounted, lower-mounted, casement</em></a></li>
+            <li style="border-top: 1px solid var(--line); border-bottom: 1px solid var(--line)"><a href="#quote" style="display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; text-decoration: none; font-weight: 600; font-size: 17px">Mini-split &amp; ductless<em style="font-style: normal; font-weight: 500; font-size: 14.5px; color: var(--ink-soft)">Including Mr. Slim by Mitsubishi</em></a></li>
+          </ul>
+        </div>
+        <div style="border-top: 4px solid {{primary}}; padding-top: 28px">
+          <h3 style="margin: 0; font-size: 38px; font-weight: 800; line-height: 1; text-transform: uppercase">Heating</h3>
+          <p style="margin: 10px 0 0; color: var(--ink-soft); font-size: 17px">Warm again tonight, and set up so it stays that way until spring.</p>
+          <ul style="list-style: none; margin: 26px 0 0; padding: 0; display: flex; flex-direction: column">
+            <li style="border-top: 1px solid var(--line)"><a href="#quote" style="display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; text-decoration: none; font-weight: 600; font-size: 17px">Boiler &amp; furnace repair<em style="font-style: normal; font-weight: 500; font-size: 14.5px; color: var(--ink-soft)">No heat, uneven heat, short cycling</em></a></li>
+            <li style="border-top: 1px solid var(--line)"><a href="#quote" style="display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; text-decoration: none; font-weight: 600; font-size: 17px">Boiler &amp; furnace installation<em style="font-style: normal; font-weight: 500; font-size: 14.5px; color: var(--ink-soft)">Installed, inspected and maintained</em></a></li>
+            <li style="border-top: 1px solid var(--line)"><a href="#quote" style="display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; text-decoration: none; font-weight: 600; font-size: 17px">Heat pump service<em style="font-style: normal; font-weight: 500; font-size: 14.5px; color: var(--ink-soft)">Air-source and water-source</em></a></li>
+            <li style="border-top: 1px solid var(--line)"><a href="#quote" style="display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; text-decoration: none; font-weight: 600; font-size: 17px">PTAC heat repair<em style="font-style: normal; font-weight: 500; font-size: 14.5px; color: var(--ink-soft)">Switched over and tested on heat</em></a></li>
+            <li style="border-top: 1px solid var(--line)"><a href="#quote" style="display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; text-decoration: none; font-weight: 600; font-size: 17px">Attic insulation<em style="font-style: normal; font-weight: 500; font-size: 14.5px; color: var(--ink-soft)">Traps conditioned air, blocks heat transfer</em></a></li>
+            <li style="border-top: 1px solid var(--line); border-bottom: 1px solid var(--line)"><a href="#quote" style="display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; text-decoration: none; font-weight: 600; font-size: 17px">Winterization &amp; storage<em style="font-style: normal; font-weight: 500; font-size: 14.5px; color: var(--ink-soft)">Covered, sealed, stored until spring</em></a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; margin-top: 64px">
+        <div>
+          <div style="display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid var(--line); border-radius: 5px; color: {{secondaryOnLight}}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true" style="width: 22px; height: 22px"><path d="M4 4.5h16M4 9.5h16M7.5 14.5h13M7.5 19.5h13M4 14.5v5"></path></svg>
+          </div>
+          <h3 style="margin: 18px 0 0; font-size: 28px; font-weight: 700; line-height: 1.05; text-transform: uppercase">Mini-duct systems</h3>
+          <p style="margin: 10px 0 0; color: var(--ink-soft); font-size: 16.5px">High-velocity mini-duct systems such as the Unico System — built for older homes with no standard ductwork and no room to add it.</p>
+          <a href="#quote" style="display: inline-block; margin-top: 14px; font-weight: 700; font-size: 15.5px; color: {{secondaryOnLight}}">Plan a mini-duct install</a>
+        </div>
+        <div>
+          <div style="display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid var(--line); border-radius: 5px; color: {{secondaryOnLight}}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true" style="width: 22px; height: 22px"><rect x="2.5" y="6" width="19" height="7" rx="1.5"></rect><path d="M6 17c0 1.5 1 2.5 2 2.5M12 16v3.5M18 17c0 1.5-1 2.5-2 2.5"></path></svg>
+          </div>
+          <h3 style="margin: 18px 0 0; font-size: 28px; font-weight: 700; line-height: 1.05; text-transform: uppercase">Air ducts &amp; air quality</h3>
+          <p style="margin: 10px 0 0; color: var(--ink-soft); font-size: 16.5px">Video duct inspection, duct cleaning and indoor air quality treatment to cut allergens and get air moving properly again.</p>
+          <a href="#quote" style="display: inline-block; margin-top: 14px; font-weight: 700; font-size: 15.5px; color: {{secondaryOnLight}}">Book a duct inspection</a>
+        </div>
+        <div>
+          <div style="display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid var(--line); border-radius: 5px; color: {{secondaryOnLight}}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true" style="width: 22px; height: 22px"><path d="M8 3.5v6a4 4 0 0 0 4 4 4 4 0 0 1 4 4v3M5 3.5h6M13 20.5h6"></path></svg>
+          </div>
+          <h3 style="margin: 18px 0 0; font-size: 28px; font-weight: 700; line-height: 1.05; text-transform: uppercase">Plumbing &amp; filtration</h3>
+          <p style="margin: 10px 0 0; color: var(--ink-soft); font-size: 16.5px">Pipe and fixture repairs, drain cleaning and water filtration — handled by the same team that looks after your heating.</p>
+          <a href="#quote" style="display: inline-block; margin-top: 14px; font-weight: 700; font-size: 15.5px; color: {{secondaryOnLight}}">Book a plumbing repair</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Building systems -->
+  <section id="buildings" style="background: {{dark}}; color: #FFFFFF">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 96px 40px">
+      <div style="display: flex; flex-wrap: wrap; gap: 56px; align-items: end">
+        <div style="flex: 999 1 520px; min-width: 0">
+          <p style="margin: 0 0 14px; font-size: 14px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: {{primaryOnDark}}">PTAC specialists</p>
+          <h2 style="margin: 0; font-size: 76px; font-weight: 800; line-height: .92; text-transform: uppercase; text-wrap: balance">The units most companies won't touch.</h2>
+        </div>
+        <p style="flex: 1 1 360px; min-width: 0; margin: 0; font-size: 18.5px; color: #D6D3CF">A sleeve under the window. A fan coil behind a cabinet. A heat-pump loop shared by the whole building. We sell, install, repair and maintain PTACs with a quick turnaround — and we'll beat any competitor's quote on them.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; margin-top: 56px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.12); border-radius: 6px; overflow: hidden">
+        <div style="background: {{dark}}; padding: 32px 28px">
+          <b style="display: block; font-size: 13px; font-weight: 700; letter-spacing: .16em; color: {{secondaryOnDark}}">01</b>
+          <h3 style="margin: 14px 0 0; font-size: 30px; font-weight: 700; line-height: 1; text-transform: uppercase">PTAC units</h3>
+          <p style="margin: 10px 0 0; font-size: 15.5px; color: #B5B2AE">Sales, installation, heat and cool repair and maintenance — including Suburban Dyaline units. Quick turnaround.</p>
+        </div>
+        <div style="background: {{dark}}; padding: 32px 28px">
+          <b style="display: block; font-size: 13px; font-weight: 700; letter-spacing: .16em; color: {{secondaryOnDark}}">02</b>
+          <h3 style="margin: 14px 0 0; font-size: 30px; font-weight: 700; line-height: 1; text-transform: uppercase">Wall sleeves</h3>
+          <p style="margin: 10px 0 0; font-size: 15.5px; color: #B5B2AE">Thru-the-wall and PTAC sleeve installation, fitted to the opening you already have. No new hole in the façade.</p>
+        </div>
+        <div style="background: {{dark}}; padding: 32px 28px">
+          <b style="display: block; font-size: 13px; font-weight: 700; letter-spacing: .16em; color: {{secondaryOnDark}}">03</b>
+          <h3 style="margin: 14px 0 0; font-size: 30px; font-weight: 700; line-height: 1; text-transform: uppercase">Fan coils &amp; WSHPs</h3>
+          <p style="margin: 10px 0 0; font-size: 15.5px; color: #B5B2AE">Fan coil units and water-source heat pumps installed and serviced — the quiet workhorses of the high-rise.</p>
+        </div>
+        <div style="background: {{dark}}; padding: 32px 28px">
+          <b style="display: block; font-size: 13px; font-weight: 700; letter-spacing: .16em; color: {{secondaryOnDark}}">04</b>
+          <h3 style="margin: 14px 0 0; font-size: 30px; font-weight: 700; line-height: 1; text-transform: uppercase">Mounting &amp; guards</h3>
+          <p style="margin: 10px 0 0; font-size: 15.5px; color: #B5B2AE">AC cradles, angle bars, brackets, drip cushions, drain pans, plexiglass guards and pigeon spikes.</p>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between; margin-top: 40px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,.12)">
+        <p style="margin: 0; font-size: 17px; color: #D6D3CF; max-width: 60ch"><strong style="color: #FFFFFF">Installing six or more units?</strong> Bulk pricing is available for commercial clients, and we coordinate with supers and management to do a whole property in one visit.</p>
+        <a href="#quote" style="display: inline-block; padding: 16px 24px; border-radius: 4px; background: {{primary}}; color: #FFFFFF; font-weight: 700; font-size: 16px; text-decoration: none">Ask about bulk pricing</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seasonal care -->
+  <section id="seasonal" style="border-bottom: 1px solid var(--line)">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 96px 40px">
+      <div style="max-width: 64ch">
+        <p style="margin: 0 0 14px; font-size: 14px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: {{primaryOnLight}}">Seasonal care</p>
+        <h2 style="margin: 0; font-size: 76px; font-weight: 800; line-height: .92; text-transform: uppercase; text-wrap: balance">Twice a year, New York changes its mind.</h2>
+        <p style="margin: 22px 0 0; font-size: 19px; color: var(--ink-soft)">Preventive maintenance plans and pre-season cleanings get you ahead of the switch — and ahead of the first-hot-day rush and the first-cold-night scramble.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 56px">
+        <div style="border: 1px solid var(--line); border-top: 4px solid {{secondary}}; border-radius: 6px; padding: 40px">
+          <span style="font-size: 13.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: {{secondaryOnLight}}">March – May</span>
+          <h3 style="margin: 10px 0 0; font-size: 44px; font-weight: 800; line-height: 1; text-transform: uppercase">The spring switch-on</h3>
+          <ul style="margin: 22px 0 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16.5px; color: var(--ink-mid)">
+            <li>Pre-season cleaning and thorough tune-up</li>
+            <li>Refrigerant levels, motor temps and voltage checked</li>
+            <li>Filters rinsed, coils and drains cleared</li>
+            <li>Window units re-installed from storage</li>
+          </ul>
+          <a href="#quote" style="display: inline-block; margin-top: 26px; padding: 15px 22px; border: 1px solid var(--ink); border-radius: 4px; color: var(--ink); font-weight: 700; font-size: 15.5px; text-decoration: none">Book a spring tune-up</a>
+        </div>
+        <div style="border: 1px solid var(--line); border-top: 4px solid {{primary}}; border-radius: 6px; padding: 40px">
+          <span style="font-size: 13.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: {{primaryOnLight}}">September – November</span>
+          <h3 style="margin: 10px 0 0; font-size: 44px; font-weight: 800; line-height: 1; text-transform: uppercase">The fall shut-down</h3>
+          <ul style="margin: 22px 0 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16.5px; color: var(--ink-mid)">
+            <li>HVAC winterization — covered, sealed, draft-proofed</li>
+            <li>AC winter storage, back in by spring</li>
+            <li>Boiler and furnace inspection before the first freeze</li>
+            <li>PTACs switched over and tested on heat</li>
+          </ul>
+          <a href="#quote" style="display: inline-block; margin-top: 26px; padding: 15px 22px; border-radius: 4px; background: {{primary}}; color: #FFFFFF; font-weight: 700; font-size: 15.5px; text-decoration: none">Book winterization now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why -->
+  <section style="background: var(--surface-2); border-bottom: 1px solid var(--line)">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 96px 40px; display: flex; flex-wrap: wrap; gap: 64px; align-items: start">
+      <figure style="flex: 1 1 380px; min-width: 0; margin: 0">
+        <div style="aspect-ratio: 4 / 5; max-width: 100%; background: var(--surface-3); border: 1px solid var(--line); border-radius: 4px; display: grid; place-items: center; text-align: center; padding: 24px; color: var(--ink-soft); font-size: 15px; font-weight: 600">[PHOTO — a technician servicing a PTAC in a real New York apartment, portrait]</div>
+        <figcaption style="margin-top: -44px; margin-left: 24px; position: relative; display: inline-flex; align-items: center; gap: 16px; background: var(--surface); color: var(--ink); padding: 14px 20px; border-radius: 4px; box-shadow: 0 14px 34px -18px rgba(0,0,0,.4)">
+          <span style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 800; line-height: 1.05; text-transform: uppercase; color: {{primaryOnLight}}">NATE<br>EPA</span>
+          <span style="font-size: 14px; line-height: 1.35; color: var(--ink-soft)">Certified, licensed, insured<br>and background-checked.</span>
+        </figcaption>
+      </figure>
+      <div style="flex: 999 1 520px; min-width: 0">
+        <p style="margin: 0 0 14px; font-size: 14px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: {{primaryOnLight}}">Why us</p>
+        <h2 style="margin: 0; font-size: 64px; font-weight: 800; line-height: .94; text-transform: uppercase; text-wrap: balance">The price comes first. Always.</h2>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; margin-top: 44px">
+          <div><h3 style="margin: 0; font-size: 25px; font-weight: 700; line-height: 1.05; text-transform: uppercase">Flat-rate, upfront</h3><p style="margin: 8px 0 0; color: var(--ink-soft); font-size: 16.5px">We charge by the job, not by the hour. You know the number before anything comes apart, and it doesn't move.</p></div>
+          <div><h3 style="margin: 0; font-size: 25px; font-weight: 700; line-height: 1.05; text-transform: uppercase">Free estimates</h3><p style="margin: 8px 0 0; color: var(--ink-soft); font-size: 16.5px">Quotes and estimates cost nothing, and the diagnostic fee is waived on approved service, repair and installation work.</p></div>
+          <div><h3 style="margin: 0; font-size: 25px; font-weight: 700; line-height: 1.05; text-transform: uppercase">We'll beat the quote</h3><p style="margin: 8px 0 0; color: var(--ink-soft); font-size: 16.5px">A competitive price guarantee on PTAC services: bring us a competitor's quote and we'll beat it.</p></div>
+          <div><h3 style="margin: 0; font-size: 25px; font-weight: 700; line-height: 1.05; text-transform: uppercase">Warrantied work</h3><p style="margin: 8px 0 0; color: var(--ink-soft); font-size: 16.5px">Guarantees and warranties on all completed work and on every piece of brand-new equipment we fit.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section id="compare" style="background: {{dark}}; color: #FFFFFF">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 96px 40px">
+      <div style="max-width: 66ch">
+        <p style="margin: 0 0 14px; font-size: 14px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: {{primaryOnDark}}">Compared</p>
+        <h2 style="margin: 0; font-size: 72px; font-weight: 800; line-height: .92; text-transform: uppercase; text-wrap: balance">The difference, line by line.</h2>
+        <p style="margin: 22px 0 0; font-size: 19px; color: #D6D3CF; line-height: 1.6">The left column is what's common in the New York HVAC trade — not a claim about any one company. Ask whoever you call how they handle each row, and compare the answers.</p>
+      </div>
+
+      <div style="overflow-x: auto; margin-top: 52px">
+        <table style="width: 100%; min-width: 760px; border-collapse: collapse; text-align: left">
+          <caption style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">How common trade practice compares with New York Cooling and Heating Services</caption>
+          <thead>
+            <tr>
+              <th scope="col" style="padding: 0 24px 18px 0; font-family: 'Barlow', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #B5B2AE; border-bottom: 1px solid rgba(255,255,255,.18)">What to ask about</th>
+              <th scope="col" style="padding: 0 24px 18px; font-family: 'Barlow', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #B5B2AE; border-bottom: 1px solid rgba(255,255,255,.18)">Common in the trade</th>
+              <th scope="col" style="padding: 14px 24px 18px; font-family: 'Barlow', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #FFFFFF; background: rgba(255,255,255,.06); border-top: 3px solid {{primary}}; border-bottom: 1px solid rgba(255,255,255,.18)">New York Cooling &amp; Heating</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row" style="padding: 20px 24px 20px 0; font-size: 17px; font-weight: 700; color: #FFFFFF; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">How you're charged</th>
+              <td style="padding: 20px 24px; font-size: 16px; color: #B5B2AE; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">By the hour, so the total moves while you watch</td>
+              <td style="padding: 20px 24px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">One flat price for the whole job</td>
+            </tr>
+            <tr>
+              <th scope="row" style="padding: 20px 24px 20px 0; font-size: 17px; font-weight: 700; color: #FFFFFF; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">When you learn the price</th>
+              <td style="padding: 20px 24px; font-size: 16px; color: #B5B2AE; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">On the invoice, once the work is done</td>
+              <td style="padding: 20px 24px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">Quoted before anything comes apart</td>
+            </tr>
+            <tr>
+              <th scope="row" style="padding: 20px 24px 20px 0; font-size: 17px; font-weight: 700; color: #FFFFFF; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">Nights, weekends, holidays</th>
+              <td style="padding: 20px 24px; font-size: 16px; color: #B5B2AE; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">Overtime surcharges, or voicemail until Monday</td>
+              <td style="padding: 20px 24px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">A live dispatcher and no surcharge, any hour</td>
+            </tr>
+            <tr>
+              <th scope="row" style="padding: 20px 24px 20px 0; font-size: 17px; font-weight: 700; color: #FFFFFF; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">The diagnostic fee</th>
+              <td style="padding: 20px 24px; font-size: 16px; color: #B5B2AE; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">Charged whether you go ahead or not</td>
+              <td style="padding: 20px 24px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">Waived when you approve the work</td>
+            </tr>
+            <tr>
+              <th scope="row" style="padding: 20px 24px 20px 0; font-size: 17px; font-weight: 700; color: #FFFFFF; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">PTACs and wall sleeves</th>
+              <td style="padding: 20px 24px; font-size: 16px; color: #B5B2AE; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">Often turned away as too awkward</td>
+              <td style="padding: 20px 24px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">A speciality — and we'll beat any written quote</td>
+            </tr>
+            <tr>
+              <th scope="row" style="padding: 20px 24px 20px 0; font-size: 17px; font-weight: 700; color: #FFFFFF; vertical-align: top">After the job</th>
+              <td style="padding: 20px 24px; font-size: 16px; color: #B5B2AE; vertical-align: top">Warranty terms vary, if offered at all</td>
+              <td style="padding: 20px 24px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: rgba(255,255,255,.06); vertical-align: top">Warranty on all work and new equipment</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between; margin-top: 40px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,.12)">
+        <p style="margin: 0; font-size: 17px; color: #D6D3CF; max-width: 60ch"><strong style="color: #FFFFFF">Already have a quote?</strong> Bring it to us. On PTAC work we'll beat any competitor's written quote, and the estimate costs you nothing either way.</p>
+        <a href="#quote" style="display: inline-block; padding: 16px 24px; border-radius: 4px; background: {{primary}}; color: #FFFFFF; font-weight: 700; font-size: 16px; text-decoration: none">Get a free estimate</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section id="reviews" style="border-bottom: 1px solid var(--line)">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 96px 40px">
+      <div style="display: flex; flex-wrap: wrap; gap: 24px; justify-content: space-between; align-items: end">
+        <div style="max-width: 62ch">
+          <p style="margin: 0 0 14px; font-size: 14px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: {{primaryOnLight}}">Reviews</p>
+          <h2 style="margin: 0; font-size: 64px; font-weight: 800; line-height: .94; text-transform: uppercase">New Yorkers, in their own words.</h2>
+        </div>
+        <span style="font-size: 15px; font-weight: 600; color: var(--ink-soft)">[X.X] average · [number] reviews on [Google]</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 48px">
+        <figure style="margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 5px; padding: 30px">
+          <div aria-label="Five out of five stars" role="img" style="display: flex; gap: 3px; color: {{primary}}">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 17px; height: 17px"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-3.8L6 21l1.5-7.5L2 9h7z"></path></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 17px; height: 17px"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-3.8L6 21l1.5-7.5L2 9h7z"></path></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 17px; height: 17px"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-3.8L6 21l1.5-7.5L2 9h7z"></path></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 17px; height: 17px"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-3.8L6 21l1.5-7.5L2 9h7z"></path></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 17px; height: 17px"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-3.8L6 21l1.5-7.5L2 9h7z"></path></svg>
+          </div>
+          <blockquote style="margin: 16px 0 0; font-size: 17px; line-height: 1.55">[REAL GOOGLE REVIEW — a New York customer, pasted word for word. Ideally mentions a PTAC or a fast after-hours fix.]</blockquote>
+          <figcaption style="margin-top: 22px; display: flex; align-items: center; gap: 12px">
+            <span aria-hidden="true" style="display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--ink); color: var(--page); font-size: 13px; font-weight: 700">AB</span>
+            <span style="display: flex; flex-direction: column"><b style="font-size: 15px">[Name]</b><small style="color: var(--ink-soft); font-size: 13.5px">[Neighborhood] · [Service]</small></span>
+          </figcaption>
+        </figure>
+        <figure style="margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 5px; padding: 30px">
+          <div aria-label="Five out of five stars" role="img" style="display: flex; gap: 3px; color: {{primary}}">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 17px; height: 17px"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-3.8L6 21l1.5-7.5L2 9h7z"></path></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 17px; height: 17px"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-3.8L6 21l1.5-7.5L2 9h7z"></path></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 17px; height: 17px"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-3.8L6 21l1.5-7.5L2 9h7z"></path></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 17px; height: 17px"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-3.8L6 21l1.5-7.5L2 9h7z"></path></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 17px; height: 17px"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-3.8L6 21l1.5-7.5L2 9h7z"></path></svg>
+          </div>
+          <blockquote style="margin: 16px 0 0; font-size: 17px; line-height: 1.55">[REAL GOOGLE REVIEW — a boiler, furnace or winter story, never written for them.]</blockquote>
+          <figcaption style="margin-top: 22px; display: flex; align-items: center; gap: 12px">
+            <span aria-hidden="true" style="display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--ink); color: var(--page); font-size: 13px; font-weight: 700">CD</span>
+            <span style="display: flex; flex-direction: column"><b style="font-size: 15px">[Name]</b><small style="color: var(--ink-soft); font-size: 13.5px">[Neighborhood] · [Service]</small></span>
+          </figcaption>
+        </figure>
+        <figure style="margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 5px; padding: 30px">
+          <div aria-label="Five out of five stars" role="img" style="display: flex; gap: 3px; color: {{primary}}">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 17px; height: 17px"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-3.8L6 21l1.5-7.5L2 9h7z"></path></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 17px; height: 17px"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-3.8L6 21l1.5-7.5L2 9h7z"></path></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 17px; height: 17px"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-3.8L6 21l1.5-7.5L2 9h7z"></path></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 17px; height: 17px"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-3.8L6 21l1.5-7.5L2 9h7z"></path></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 17px; height: 17px"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-3.8L6 21l1.5-7.5L2 9h7z"></path></svg>
+          </div>
+          <blockquote style="margin: 16px 0 0; font-size: 17px; line-height: 1.55">[REAL GOOGLE REVIEW — ideally a building manager or commercial client, bulk PTAC work.]</blockquote>
+          <figcaption style="margin-top: 22px; display: flex; align-items: center; gap: 12px">
+            <span aria-hidden="true" style="display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--ink); color: var(--page); font-size: 13px; font-weight: 700">EF</span>
+            <span style="display: flex; flex-direction: column"><b style="font-size: 15px">[Name]</b><small style="color: var(--ink-soft); font-size: 13.5px">[Neighborhood] · [Service]</small></span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work + brands -->
+  <section id="brands" style="border-bottom: 1px solid var(--line)">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 96px 40px">
+      <div style="max-width: 62ch">
+        <p style="margin: 0 0 14px; font-size: 14px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: {{primaryOnLight}}">The work</p>
+        <h2 style="margin: 0; font-size: 64px; font-weight: 800; line-height: .94; text-transform: uppercase">Before. After. Done right.</h2>
+        <p style="margin: 18px 0 0; font-size: 18px; color: var(--ink-soft)">Real installs, deep cleans and repairs from apartments, buildings and businesses around the city.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 44px">
+        <div style="grid-column: span 2; aspect-ratio: 4 / 3; max-width: 100%; background: var(--surface-2); border: 1px solid var(--line); display: grid; place-items: center; color: var(--ink-soft); font-size: 14px; font-weight: 600; text-align: center; padding: 12px">[BEFORE / AFTER — a coil deep clean, side by side]</div>
+        <div style="aspect-ratio: 4 / 3; max-width: 100%; background: var(--surface-2); border: 1px solid var(--line); display: grid; place-items: center; color: var(--ink-soft); font-size: 14px; font-weight: 600; text-align: center; padding: 12px">[PTAC install]</div>
+        <div style="aspect-ratio: 4 / 3; max-width: 100%; background: var(--surface-2); border: 1px solid var(--line); display: grid; place-items: center; color: var(--ink-soft); font-size: 14px; font-weight: 600; text-align: center; padding: 12px">[Mini-duct run in a pre-war ceiling]</div>
+        <div style="aspect-ratio: 4 / 3; max-width: 100%; background: var(--surface-2); border: 1px solid var(--line); display: grid; place-items: center; color: var(--ink-soft); font-size: 14px; font-weight: 600; text-align: center; padding: 12px">[Through-the-wall sleeve]</div>
+        <div style="aspect-ratio: 4 / 3; max-width: 100%; background: var(--surface-2); border: 1px solid var(--line); display: grid; place-items: center; color: var(--ink-soft); font-size: 14px; font-weight: 600; text-align: center; padding: 12px">[Boiler replacement]</div>
+        <div style="aspect-ratio: 4 / 3; max-width: 100%; background: var(--surface-2); border: 1px solid var(--line); display: grid; place-items: center; color: var(--ink-soft); font-size: 14px; font-weight: 600; text-align: center; padding: 12px">[Rooftop condenser]</div>
+        <div style="aspect-ratio: 4 / 3; max-width: 100%; background: var(--surface-2); border: 1px solid var(--line); display: grid; place-items: center; color: var(--ink-soft); font-size: 14px; font-weight: 600; text-align: center; padding: 12px">[Technician on site]</div>
+      </div>
+      <div style="margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 12px; align-items: center">
+        <span style="font-size: 14px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); margin-right: 8px">Brands we fit and service</span>
+        <b style="padding: 8px 15px; border: 1px solid var(--line); border-radius: 3px; font-size: 14.5px">Carrier</b>
+        <b style="padding: 8px 15px; border: 1px solid var(--line); border-radius: 3px; font-size: 14.5px">American Standard</b>
+        <b style="padding: 8px 15px; border: 1px solid var(--line); border-radius: 3px; font-size: 14.5px">Mr. Slim by Mitsubishi</b>
+        <b style="padding: 8px 15px; border: 1px solid var(--line); border-radius: 3px; font-size: 14.5px">Unico</b>
+        <b style="padding: 8px 15px; border: 1px solid var(--line); border-radius: 3px; font-size: 14.5px">Sanyo</b>
+        <b style="padding: 8px 15px; border: 1px solid var(--line); border-radius: 3px; font-size: 14.5px">Suburban Dyaline</b>
+        <b style="padding: 8px 15px; border: 1px solid var(--line); border-radius: 3px; font-size: 14.5px">+ every major brand</b>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section style="background: var(--surface-2); border-bottom: 1px solid var(--line)">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 96px 40px">
+      <div style="max-width: 62ch">
+        <p style="margin: 0 0 14px; font-size: 14px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: {{primaryOnLight}}">How it works</p>
+        <h2 style="margin: 0; font-size: 64px; font-weight: 800; line-height: .94; text-transform: uppercase">Four steps back to comfortable.</h2>
+        <p style="margin: 18px 0 0; font-size: 18px; color: var(--ink-soft)">No answering machine, no surprise invoice, no overtime charge for calling at 2am.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; margin-top: 48px">
+        <div style="border-top: 2px solid {{secondary}}; padding-top: 20px"><b style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 44px; font-weight: 800; line-height: 1; color: {{secondaryOnLight}}">01</b><h3 style="margin: 12px 0 0; font-size: 26px; font-weight: 700; text-transform: uppercase">Call any hour</h3><p style="margin: 6px 0 0; color: var(--ink-soft); font-size: 16px">A live dispatcher answers, day or night, weekend or holiday. Tell them the unit, the fault and the building.</p></div>
+        <div style="border-top: 2px solid {{secondary}}; padding-top: 20px"><b style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 44px; font-weight: 800; line-height: 1; color: {{secondaryOnLight}}">02</b><h3 style="margin: 12px 0 0; font-size: 26px; font-weight: 700; text-transform: uppercase">We diagnose</h3><p style="margin: 6px 0 0; color: var(--ink-soft); font-size: 16px">A certified technician arrives in the window we agreed and finds the fault on the spot.</p></div>
+        <div style="border-top: 2px solid {{primary}}; padding-top: 20px"><b style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 44px; font-weight: 800; line-height: 1; color: {{primaryOnLight}}">03</b><h3 style="margin: 12px 0 0; font-size: 26px; font-weight: 700; text-transform: uppercase">You approve the price</h3><p style="margin: 6px 0 0; color: var(--ink-soft); font-size: 16px">One flat price for the job, explained in plain English. Approve it and the diagnostic fee is waived.</p></div>
+        <div style="border-top: 2px solid {{primary}}; padding-top: 20px"><b style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 44px; font-weight: 800; line-height: 1; color: {{primaryOnLight}}">04</b><h3 style="margin: 12px 0 0; font-size: 26px; font-weight: 700; text-transform: uppercase">Done, and warrantied</h3><p style="margin: 6px 0 0; color: var(--ink-soft); font-size: 16px">Fixed properly, tested in front of you, warrantied, and the space left spotless.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Areas -->
+  <section id="areas" style="border-bottom: 1px solid var(--line)">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 96px 40px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px">
+      <div style="background: {{dark}}; color: #FFFFFF; border-radius: 6px; padding: 44px; display: flex; flex-direction: column">
+        <h3 style="margin: 0; font-size: 46px; font-weight: 800; line-height: .95; text-transform: uppercase">Booking ahead saves you the heat-wave queue.</h3>
+        <p style="margin: 16px 0 0; color: #D6D3CF; font-size: 17px">The first 90° day and the first freezing night are when every New Yorker calls at once. Take out a maintenance plan or book a pre-season clean and you're already on the list.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; padding-top: 28px">
+          <a href="#quote" style="display: inline-block; padding: 16px 24px; border-radius: 4px; background: {{primary}}; color: #FFFFFF; font-weight: 700; font-size: 16px; text-decoration: none">Reserve a seasonal visit</a>
+          <a href="tel:+15165170005" class="call-breathe" style="--ring: {{ringColor}}; display: inline-block; padding: 16px 24px; border: 1px solid rgba(255,255,255,.4); border-radius: 4px; color: #FFFFFF; font-weight: 700; font-size: 16px; text-decoration: none">{{phone}}</a>
+        </div>
+      </div>
+      <div style="border: 1px solid var(--line); border-radius: 6px; padding: 44px">
+        <h3 style="margin: 0; font-size: 46px; font-weight: 800; line-height: .95; text-transform: uppercase">Where we work.</h3>
+        <p style="margin: 16px 0 0; color: var(--ink-soft); font-size: 17px">Emergency service runs 24 hours a day, every day. Not sure if we cover your block? Call and ask.</p>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; margin-top: 24px">
+          <a href="#quote" style="padding: 18px 0; border-top: 1px solid var(--line); font-weight: 600; text-decoration: none; display: flex; justify-content: space-between; gap: 12px">Manhattan <span aria-hidden="true" style="color: {{primaryOnLight}}">→</span></a>
+          <a href="#quote" style="padding: 18px 0 18px 24px; border-top: 1px solid var(--line); font-weight: 600; text-decoration: none; display: flex; justify-content: space-between; gap: 12px">Brooklyn <span aria-hidden="true" style="color: {{primaryOnLight}}">→</span></a>
+          <a href="#quote" style="padding: 18px 0; border-top: 1px solid var(--line); font-weight: 600; text-decoration: none; display: flex; justify-content: space-between; gap: 12px">Queens <span aria-hidden="true" style="color: {{primaryOnLight}}">→</span></a>
+          <a href="#quote" style="padding: 18px 0 18px 24px; border-top: 1px solid var(--line); font-weight: 600; text-decoration: none; display: flex; justify-content: space-between; gap: 12px">The Bronx <span aria-hidden="true" style="color: {{primaryOnLight}}">→</span></a>
+          <a href="#quote" style="padding: 18px 0; border-top: 1px solid var(--line); font-weight: 600; text-decoration: none; display: flex; justify-content: space-between; gap: 12px">Staten Island <span aria-hidden="true" style="color: {{primaryOnLight}}">→</span></a>
+          <a href="#quote" style="padding: 18px 0 18px 24px; border-top: 1px solid var(--line); font-weight: 600; text-decoration: none; display: flex; justify-content: space-between; gap: 12px">Long Island <span aria-hidden="true" style="color: {{primaryOnLight}}">→</span></a>
+          <a href="#quote" style="padding: 18px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-weight: 600; text-decoration: none; display: flex; justify-content: space-between; gap: 12px">Nassau &amp; Suffolk <span aria-hidden="true" style="color: {{primaryOnLight}}">→</span></a>
+          <a href="#quote" style="padding: 18px 0 18px 24px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-weight: 600; text-decoration: none; display: flex; justify-content: space-between; gap: 12px">Westchester &amp; NJ <span aria-hidden="true" style="color: {{primaryOnLight}}">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" style="border-bottom: 1px solid var(--line)">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 96px 40px">
+      <p style="margin: 0 0 14px; font-size: 14px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: {{primaryOnLight}}">FAQ</p>
+      <h2 style="margin: 0; font-size: 64px; font-weight: 800; line-height: .94; text-transform: uppercase">Asked before booking.</h2>
+      <div style="max-width: 920px; margin-top: 40px">
+        <div style="border-top: 1px solid var(--line); padding: 24px 0">
+          <div style="display: flex; justify-content: space-between; gap: 24px; font-size: 20px; font-weight: 700"><span>Do you charge extra for nights, weekends or holidays?</span><span aria-hidden="true" style="color: {{primaryOnLight}}">–</span></div>
+          <p style="margin: 14px 0 0; color: var(--ink-soft); font-size: 16.5px; max-width: 70ch">No. Live dispatchers take calls around the clock and there is no overtime, weekend or holiday surcharge. The flat price for the job is the same at 2am as it is at 2pm.</p>
+        </div>
+        <div style="border-top: 1px solid var(--line); padding: 24px 0; display: flex; justify-content: space-between; gap: 24px; font-size: 20px; font-weight: 700"><span>Will you beat a quote I already have on PTAC units?</span><span aria-hidden="true" style="color: var(--ink-soft)">+</span></div>
+        <div style="border-top: 1px solid var(--line); padding: 24px 0; display: flex; justify-content: space-between; gap: 24px; font-size: 20px; font-weight: 700"><span>Is the diagnostic fee waived if I go ahead with the work?</span><span aria-hidden="true" style="color: var(--ink-soft)">+</span></div>
+        <div style="border-top: 1px solid var(--line); padding: 24px 0; display: flex; justify-content: space-between; gap: 24px; font-size: 20px; font-weight: 700"><span>Can you cool an old house with no ductwork?</span><span aria-hidden="true" style="color: var(--ink-soft)">+</span></div>
+        <div style="border-top: 1px solid var(--line); padding: 24px 0; display: flex; justify-content: space-between; gap: 24px; font-size: 20px; font-weight: 700"><span>Do you handle plumbing and boilers as well as HVAC?</span><span aria-hidden="true" style="color: var(--ink-soft)">+</span></div>
+        <div style="border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 24px 0; display: flex; justify-content: space-between; gap: 24px; font-size: 20px; font-weight: 700"><span>Is there bulk pricing for a whole building of units?</span><span aria-hidden="true" style="color: var(--ink-soft)">+</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section style="background: var(--surface-2); color: var(--ink)">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 104px 40px; text-align: center; display: flex; flex-direction: column; align-items: center">
+      <div style="text-align: center">
+        <span style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: .34em; text-transform: uppercase; color: {{primaryOnLight}}">New York</span>
+        <span style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 54px; font-weight: 800; line-height: .92; text-transform: uppercase; color: var(--ink)">Cooling &amp; Heating</span>
+      </div>
+      <h2 style="margin: 28px 0 0; font-size: 92px; font-weight: 800; line-height: .9; text-transform: uppercase; text-wrap: balance">Whatever stops working, whenever.</h2>
+      <p style="margin: 22px auto 0; font-size: 20px; color: var(--ink-soft); max-width: 52ch">Heat wave, cold snap or a 3am breakdown — one call gets a certified technician out and a flat price agreed before the work starts.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 36px">
+        <a href="tel:+15165170005" class="call-breathe" style="--ring: {{ringColor}}; display: inline-block; padding: 19px 30px; border-radius: 4px; background: {{primary}}; color: #FFFFFF; font-weight: 700; font-size: 17px; text-decoration: none">Call {{phone}}</a>
+        <a href="#quote" style="display: inline-block; padding: 19px 30px; border: 1.5px solid var(--ink); border-radius: 4px; color: var(--ink); font-weight: 700; font-size: 17px; text-decoration: none">Get a free estimate</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background: #0E0E10; color: #B5B2AE">
+    <div style="max-width: 1280px; margin: 0 auto; padding: 64px 40px 40px">
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px">
+        <div>
+          <span style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .34em; text-transform: uppercase; color: {{primaryOnDark}}">New York</span>
+          <span style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 32px; font-weight: 800; line-height: .92; text-transform: uppercase; color: #FFFFFF">Cooling &amp; Heating</span>
+          <p style="margin: 18px 0 0; font-size: 15px">Air conditioning, heating, boilers, ducts and plumbing for New York homes, buildings and businesses. 24-hour emergency service.</p>
+        </div>
+        <div>
+          <h4 style="margin: 0; color: #FFFFFF; font-size: 14px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase">Services</h4>
+          <ul style="list-style: none; margin: 16px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 15px">
+            <li><a href="#services" style="text-decoration: none">AC repair &amp; installation</a></li>
+            <li><a href="#services" style="text-decoration: none">Boilers &amp; furnaces</a></li>
+            <li><a href="#buildings" style="text-decoration: none">PTAC &amp; wall sleeves</a></li>
+            <li><a href="#services" style="text-decoration: none">Mini-duct systems</a></li>
+            <li><a href="#services" style="text-decoration: none">Duct cleaning &amp; air quality</a></li>
+            <li><a href="#seasonal" style="text-decoration: none">Winterization &amp; storage</a></li>
+            <li><a href="#services" style="text-decoration: none">Plumbing &amp; filtration</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="margin: 0; color: #FFFFFF; font-size: 14px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase">Contact</h4>
+          <ul style="list-style: none; margin: 16px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 15px">
+            <li><a href="tel:+15165170005" style="text-decoration: none; color: #FFFFFF; font-weight: 600">{{phone}}</a></li>
+            <li><a href="mailto:coolingheatingnewyork@gmail.com" style="text-decoration: none">coolingheatingnewyork@gmail.com</a></li>
+            <li>1020 Lexington Ave, 2nd Floor<br>New York, NY 10021</li>
+            <li>Facebook · Instagram</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="margin: 0; color: #FFFFFF; font-size: 14px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase">Hours</h4>
+          <ul style="list-style: none; margin: 16px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; font-size: 15px">
+            <li style="color: {{primaryOnDark}}">Emergency service — 24/7</li>
+            <li>No overtime, weekend or holiday charge</li>
+            <li>[Office hours]</li>
+            <li>NATE · EPA certified · Licensed · Insured</li>
+          </ul>
+        </div>
+      </div>
+      <div style="margin-top: 44px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.12); display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; font-size: 13.5px">
+        <span>© 2026 New York Cooling &amp; Heating Services · [License no.]</span>
+        <span>Privacy policy · Terms · Accessibility</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Sticky call bar -->
+  <div style="position: sticky; bottom: 0; z-index: 50; background: #2A2A2E; color: #FFFFFF; border-top: 1px solid rgba(255,255,255,.08); box-shadow: 0 -12px 30px -12px rgba(0,0,0,.45); padding: 14px 40px; display: flex; flex-wrap: wrap; gap: 26px; align-items: center; justify-content: center">
+    <p style="margin: 0; font-size: 16px; color: #D6D3CF"><strong style="color: #FFFFFF">Broken down right now?</strong> Live dispatchers, 24 hours a day, no overtime charge.</p>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px">
+      <a href="tel:+15165170005" class="call-breathe" style="--ring: {{ringColor}}; display: inline-flex; align-items: center; gap: 9px; padding: 15px 24px; border-radius: 4px; background: {{primary}}; color: #FFFFFF; font-weight: 700; font-size: 16px; text-decoration: none">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 17px; height: 17px"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"></path></svg>
+        Call {{phone}}
+      </a>
+      <a href="#quote" style="display: inline-block; padding: 15px 24px; border: 1px solid rgba(255,255,255,.4); border-radius: 4px; color: #FFFFFF; font-weight: 700; font-size: 16px; text-decoration: none">Free estimate</a>
+    </div>
+  </div>
+
+  <!-- Lead pop-up (exit intent) -->
+  <sc-if value="{{showPopup}}" hint-placeholder-val="{{false}}">
+    <div style="position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 24px; box-sizing: border-box">
+      <button type="button" aria-label="Close pop-up" onClick="{{closePopup}}" style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0; padding: 0; background: rgba(14,14,16,.66); cursor: pointer"></button>
+      <div role="dialog" aria-modal="true" aria-labelledby="nx-title" style="position: relative; width: 100%; max-width: 460px; max-height: 100%; overflow-y: auto; box-sizing: border-box; background: var(--surface); color: var(--ink); border-radius: 8px; box-shadow: 0 40px 90px -30px rgba(0,0,0,.7)">
+        <div style="display: flex; height: 6px; border-radius: 8px 8px 0 0; overflow: hidden" aria-hidden="true"><span style="flex: 1; background: {{secondary}}"></span><span style="flex: 1; background: {{primary}}"></span></div>
+        <button type="button" aria-label="Close" onClick="{{closePopup}}" style="position: absolute; top: 14px; right: 12px; display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 50%; background: var(--surface-2); color: var(--ink); cursor: pointer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="width: 18px; height: 18px"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+        </button>
+        <div style="padding: 30px 28px 26px; display: flex; flex-direction: column; align-items: center; text-align: center">
+          <div style="text-align: center">
+            <span style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .34em; text-transform: uppercase; color: {{primaryOnLight}}">New York</span>
+            <span style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 30px; font-weight: 800; line-height: .92; text-transform: uppercase; color: var(--ink)">Cooling &amp; Heating</span>
+          </div>
+          <p style="margin: 20px 0 0; font-size: 12.5px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: {{primaryOnLight}}">Before you go</p>
+          <h2 id="nx-title" style="margin: 8px 0 0; font-size: 40px; font-weight: 800; line-height: .95; text-transform: uppercase; text-wrap: balance">Get a free estimate first.</h2>
+          <p style="margin: 12px 0 0; font-size: 16px; line-height: 1.5; color: var(--ink-soft); max-width: 38ch">Leave your number and a dispatcher calls you back with a flat price for the job. No obligation, no hard sell.</p>
+          <span style="margin-top: 16px; display: inline-block; padding: 9px 14px; border: 1.5px dashed {{primary}}; border-radius: 4px; font-size: 14.5px; font-weight: 700; color: {{primaryOnLight}}">[OFFER — e.g. $XX off your first service call]</span>
+        </div>
+        <div style="padding: 0 28px 28px; display: flex; flex-direction: column; gap: 10px">
+          <label for="nx-name" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Your name</label>
+          <input id="nx-name" type="text" placeholder="Your name" style="width: 100%; box-sizing: border-box; padding: 15px 14px; border: 1px solid var(--line); border-radius: 5px; background: var(--surface-2); font-family: inherit; font-size: 16px; font-weight: 500; color: var(--ink)">
+          <label for="nx-phone" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Phone number</label>
+          <input id="nx-phone" type="tel" placeholder="Phone number" style="width: 100%; box-sizing: border-box; padding: 15px 14px; border: 1px solid var(--line); border-radius: 5px; background: var(--surface-2); font-family: inherit; font-size: 16px; font-weight: 500; color: var(--ink)">
+          <button type="button" style="width: 100%; padding: 17px 20px; border: 0; border-radius: 4px; background: var(--ink); color: var(--page); font-family: inherit; font-weight: 700; font-size: 16.5px; cursor: pointer">Call me back</button>
+          <div style="display: flex; align-items: center; gap: 12px; margin: 4px 0; font-size: 13px; font-weight: 600; color: var(--ink-soft)" aria-hidden="true"><span style="flex: 1; height: 1px; background: var(--line)"></span>or<span style="flex: 1; height: 1px; background: var(--line)"></span></div>
+          <a href="tel:+15165170005" class="call-breathe" style="--ring: {{ringColor}}; display: flex; align-items: center; justify-content: center; gap: 9px; padding: 17px 20px; border-radius: 4px; background: {{primary}}; color: #FFFFFF; font-weight: 700; font-size: 16.5px; text-decoration: none">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width: 18px; height: 18px"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"></path></svg>
+            Call {{phone}} now
+          </a>
+          <button type="button" onClick="{{closePopup}}" style="margin-top: 4px; min-height: 44px; border: 0; background: transparent; font-family: inherit; font-size: 14.5px; font-weight: 600; color: var(--ink-soft); text-decoration: underline; cursor: pointer">No thanks, I'm fine for now</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+
+<script type="text/x-dc" data-dc-script data-props='{
+  "name": {"editor": "text", "default": "New York Cooling &amp; Heating Services", "section": "Client"},
+  "phone": {"editor": "text", "default": "(516) 517-0005", "section": "Client"},
+  "primary": {"editor": "color", "default": "#D81F2A", "section": "Brand"},
+  "secondary": {"editor": "color", "default": "#2F6C8F", "section": "Brand"},
+  "dark": {"editor": "color", "default": "#1C1C1F", "section": "Brand"},
+  "previewPopup": {"editor": "boolean", "default": false, "section": "Pop-up"},
+  "$preview": {"width": 1440, "height": 7850}
+}'>
+class Component extends DCLogic {
+  shift(hex, amount) {
+    var m = /^#?([0-9a-f]{6})$/i.exec(String(hex || '').trim());
+    if (!m) return hex;
+    var n = parseInt(m[1], 16);
+    var parts = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(function (c) {
+      var v = amount >= 0 ? c + (255 - c) * amount : c * (1 + amount);
+      return Math.max(0, Math.min(255, Math.round(v)));
+    });
+    return '#' + parts.map(function (c) { return ('0' + c.toString(16)).slice(-2); }).join('');
+  }
+
+  rgba(hex, alpha) {
+    var m = /^#?([0-9a-f]{6})$/i.exec(String(hex || '').trim());
+    if (!m) return 'rgba(0,0,0,' + alpha + ')';
+    var n = parseInt(m[1], 16);
+    return 'rgba(' + [(n >> 16) & 255, (n >> 8) & 255, n & 255].join(',') + ',' + alpha + ')';
+  }
+
+  seenKey() { return 'nycool-popup-seen'; }
+  alreadySeen() { try { return window.sessionStorage.getItem(this.seenKey()) === '1'; } catch (e) { return false; } }
+  markSeen() { try { window.sessionStorage.setItem(this.seenKey(), '1'); } catch (e) {} }
+  openPopup() {
+    if (this.state && (this.state.popupOpen || this.state.popupDismissed)) return;
+    if (this.alreadySeen()) return;
+    this.markSeen();
+    this.setState({ popupOpen: true });
+  }
+
+  componentDidMount() {
+    var self = this;
+    this.onExit = function (e) {
+      if (e.relatedTarget || e.toElement) return;
+      if (e.clientY > 10) return;
+      self.openPopup();
+    };
+    document.addEventListener('mouseout', this.onExit);
+  }
+  componentWillUnmount() { document.removeEventListener('mouseout', this.onExit); }
+
+  issueOptions(primary, secondary) {
+    var self = this;
+    var picked = (this.state && this.state.issue) || 'cool';
+    var dark = this.props.dark ?? '#1C1C1F';
+    var looks = {
+      cool: { fg: this.shift(secondary, -0.38), bg: this.shift(secondary, 0.9), ring: secondary },
+      heat: { fg: this.shift(primary, -0.32), bg: this.shift(primary, 0.9), ring: primary },
+      install: { fg: 'var(--ink)', bg: 'var(--tint-neutral)', ring: 'var(--ink)' },
+      plumb: { fg: 'var(--ink)', bg: 'var(--tint-neutral)', ring: 'var(--ink)' }
+    };
+    var opts = [
+      { id: 'cool', label: 'Not cooling', icon: 'M12 2.6v18.8M3.9 7.3l16.2 9.4M3.9 16.7l16.2-9.4' },
+      { id: 'heat', label: 'No heat', icon: 'M12 2.7c.6 4 3 5.6 4.4 7.6a6.9 6.9 0 1 1-11.5 4.6c0-3 1.7-4.8 2.8-6.3.3 1.9 1.1 2.8 2.1 3.2-.6-3.6.3-7.1 2.2-9.1z' },
+      { id: 'install', label: 'Install or replace', icon: 'M4.5 7h15a1.5 1.5 0 0 1 1.5 1.5v7a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 15.5v-7A1.5 1.5 0 0 1 4.5 7zM6 11h12M6 14h12' },
+      { id: 'plumb', label: 'Boiler or plumbing', icon: 'M8 3.5v6a4 4 0 0 0 4 4 4 4 0 0 1 4 4v3M5 3.5h6M13 20.5h6' }
+    ];
+    return opts.map(function (o) {
+      var on = o.id === picked;
+      var l = looks[o.id];
+      return {
+        label: o.label, icon: o.icon,
+        pressed: on ? 'true' : 'false',
+        fg: on ? l.fg : 'var(--ink-soft)',
+        bg: on ? l.bg : 'var(--surface)',
+        ring: on ? 'inset 0 0 0 2px ' + l.ring : 'none',
+        pick: function () { self.setState({ issue: o.id }); }
+      };
+    });
+  }
+  submitLabel() {
+    var picked = (this.state && this.state.issue) || 'cool';
+    return {
+      cool: 'Get my free AC estimate',
+      heat: 'Get my free heating estimate',
+      install: 'Book an install consultation',
+      plumb: 'Get my free plumbing estimate'
+    }[picked];
+  }
+
+  renderVals() {
+    var primary = this.props.primary ?? '#D81F2A';
+    var secondary = this.props.secondary ?? '#2F6C8F';
+    return {
+      name: this.props.name ?? 'New York Cooling & Heating Services',
+      phone: this.props.phone ?? '(516) 517-0005',
+      dark: this.props.dark ?? '#1C1C1F',
+      primary: primary,
+      secondary: secondary,
+      primaryOnLight: this.shift(primary, -0.32),
+      primaryOnDark: this.shift(primary, 0.25),
+      secondaryOnLight: this.shift(secondary, -0.38),
+      secondaryOnDark: this.shift(secondary, 0.4),
+      ringColor: this.rgba(primary, 0.3),
+      showPopup: !!((this.state && this.state.popupOpen) || (this.props.previewPopup && !(this.state && this.state.popupDismissed))),
+      closePopup: () => this.setState({ popupOpen: false, popupDismissed: true }),
+      issues: this.issueOptions(primary, secondary),
+      submitLabel: this.submitLabel()
+    };
+  }
+}
+</script>
+</body>
+</html>
