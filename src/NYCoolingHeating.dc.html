@@ -111,11 +111,33 @@
       .pg [style*="padding: 40px"] { padding: 24px !important; }
       .pg [style*="padding: 36px"], .pg [style*="padding: 30px"] { padding: 22px !important; }
       .pg [style*="padding: 18px 40px"] { padding: 14px 16px !important; }
-      .pg [style*="position: sticky"] { padding-left: 16px !important; padding-right: 16px !important; gap: 14px !important; }
+      /* Sticky bar: one compact row, buttons only */
+      .pg .stickybar { padding: 9px 12px !important; gap: 10px !important; flex-wrap: nowrap !important; }
+      .pg .stickybar p { display: none !important; }
+      .pg .stickybar > div { flex: 1 1 auto; gap: 10px !important; flex-wrap: nowrap !important; }
+      .pg .stickybar a { justify-content: center; text-align: center; white-space: nowrap; padding: 14px 8px !important; font-size: 14px !important; }
+      .pg .stickybar a.call-breathe { flex: 2 1 0; }
+      .pg .stickybar a:not(.call-breathe) { flex: 1 1 0; }
+      /* Comparison table: stacked cards instead of a sideways scroll */
+      .pg .cmp { min-width: 0 !important; display: block; }
+      .pg .cmp thead { display: none; }
+      .pg .cmp tbody, .pg .cmp tr, .pg .cmp th, .pg .cmp td { display: block; width: auto; }
+      .pg .cmp tr { border: 1px solid rgba(255,255,255,.18); border-radius: 6px; margin-bottom: 12px; overflow: hidden; }
+      .pg .cmp th[scope="row"] { padding: 15px 18px !important; font-size: 17px !important; border-bottom: 1px solid rgba(255,255,255,.14) !important; background: rgba(255,255,255,.03); }
+      .pg .cmp td { padding: 14px 18px !important; font-size: 15.5px !important; border-bottom: 0 !important; }
+      .pg .cmp td::before { content: attr(data-label); display: block; margin-bottom: 3px; font-size: 10.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #8F8C88; }
+      .pg .cmp td:last-child::before { color: #E2575F; }
+      .pg [style*="letter-spacing: .08em"] { font-size: 15px !important; gap: 22px !important; }
+      /* Photo grid stays 2-up so it doesn't become a mile of empty boxes */
+      .pg [style*="repeat(4, minmax(0, 1fr)); gap: 12px"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+      /* Tap targets */
+      .pg a[href^="mailto:"], .pg a[href^="tel:"]:not(.call-breathe) { display: inline-flex; align-items: center; min-height: 40px; }
+      .pg footer ul { gap: 2px !important; }
+      .pg footer ul a { display: block; padding: 11px 0; }
+      .pg [style*="margin-top: 14px; font-weight: 700"] { padding: 8px 0; }
       .pg [style*="gap: 64px"], .pg [style*="gap: 56px"] { gap: 36px !important; }
       .pg header nav { justify-content: center !important; gap: 4px 20px !important; }
       .pg header nav a { min-height: 44px; display: inline-flex; align-items: center; }
-      .pg table { min-width: 560px !important; }
       .pg [style*="width: 124px"] { width: 96px !important; height: 96px !important; }
     }
   </style>
@@ -456,7 +478,7 @@
       </div>
 
       <div style="overflow-x: auto; margin-top: 52px">
-        <table style="width: 100%; min-width: 760px; border-collapse: collapse; text-align: left">
+        <table class="cmp" style="width: 100%; min-width: 760px; border-collapse: collapse; text-align: left">
           <caption style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">How common trade practice compares with New York Cooling and Heating Services</caption>
           <thead>
             <tr>
@@ -468,33 +490,33 @@
           <tbody>
             <tr>
               <th scope="row" style="padding: 20px 24px 20px 0; font-size: 17px; font-weight: 700; color: #FFFFFF; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">How you're charged</th>
-              <td style="padding: 20px 24px; font-size: 16px; color: #B5B2AE; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">By the hour, so the total moves while you watch</td>
-              <td style="padding: 20px 24px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">One flat price for the whole job</td>
+              <td data-label="Common in the trade" style="padding: 20px 24px; font-size: 16px; color: #B5B2AE; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">By the hour, so the total moves while you watch</td>
+              <td data-label="New York Cooling &amp; Heating" style="padding: 20px 24px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">One flat price for the whole job</td>
             </tr>
             <tr>
               <th scope="row" style="padding: 20px 24px 20px 0; font-size: 17px; font-weight: 700; color: #FFFFFF; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">When you learn the price</th>
-              <td style="padding: 20px 24px; font-size: 16px; color: #B5B2AE; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">On the invoice, once the work is done</td>
-              <td style="padding: 20px 24px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">Quoted before anything comes apart</td>
+              <td data-label="Common in the trade" style="padding: 20px 24px; font-size: 16px; color: #B5B2AE; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">On the invoice, once the work is done</td>
+              <td data-label="New York Cooling &amp; Heating" style="padding: 20px 24px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">Quoted before anything comes apart</td>
             </tr>
             <tr>
               <th scope="row" style="padding: 20px 24px 20px 0; font-size: 17px; font-weight: 700; color: #FFFFFF; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">Nights, weekends, holidays</th>
-              <td style="padding: 20px 24px; font-size: 16px; color: #B5B2AE; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">Overtime surcharges, or voicemail until Monday</td>
-              <td style="padding: 20px 24px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">A live dispatcher and no surcharge, any hour</td>
+              <td data-label="Common in the trade" style="padding: 20px 24px; font-size: 16px; color: #B5B2AE; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">Overtime surcharges, or voicemail until Monday</td>
+              <td data-label="New York Cooling &amp; Heating" style="padding: 20px 24px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">A live dispatcher and no surcharge, any hour</td>
             </tr>
             <tr>
               <th scope="row" style="padding: 20px 24px 20px 0; font-size: 17px; font-weight: 700; color: #FFFFFF; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">The diagnostic fee</th>
-              <td style="padding: 20px 24px; font-size: 16px; color: #B5B2AE; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">Charged whether you go ahead or not</td>
-              <td style="padding: 20px 24px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">Waived when you approve the work</td>
+              <td data-label="Common in the trade" style="padding: 20px 24px; font-size: 16px; color: #B5B2AE; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">Charged whether you go ahead or not</td>
+              <td data-label="New York Cooling &amp; Heating" style="padding: 20px 24px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">Waived when you approve the work</td>
             </tr>
             <tr>
               <th scope="row" style="padding: 20px 24px 20px 0; font-size: 17px; font-weight: 700; color: #FFFFFF; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">PTACs and wall sleeves</th>
-              <td style="padding: 20px 24px; font-size: 16px; color: #B5B2AE; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">Often turned away as too awkward</td>
-              <td style="padding: 20px 24px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">A speciality — and we'll beat any written quote</td>
+              <td data-label="Common in the trade" style="padding: 20px 24px; font-size: 16px; color: #B5B2AE; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">Often turned away as too awkward</td>
+              <td data-label="New York Cooling &amp; Heating" style="padding: 20px 24px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top">A speciality — and we'll beat any written quote</td>
             </tr>
             <tr>
               <th scope="row" style="padding: 20px 24px 20px 0; font-size: 17px; font-weight: 700; color: #FFFFFF; vertical-align: top">After the job</th>
-              <td style="padding: 20px 24px; font-size: 16px; color: #B5B2AE; vertical-align: top">Warranty terms vary, if offered at all</td>
-              <td style="padding: 20px 24px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: rgba(255,255,255,.06); vertical-align: top">Warranty on all work and new equipment</td>
+              <td data-label="Common in the trade" style="padding: 20px 24px; font-size: 16px; color: #B5B2AE; vertical-align: top">Warranty terms vary, if offered at all</td>
+              <td data-label="New York Cooling &amp; Heating" style="padding: 20px 24px; font-size: 16px; font-weight: 600; color: #FFFFFF; background: rgba(255,255,255,.06); vertical-align: top">Warranty on all work and new equipment</td>
             </tr>
           </tbody>
         </table>
@@ -722,7 +744,7 @@
   </footer>
 
   <!-- Sticky call bar -->
-  <div style="position: sticky; bottom: 0; z-index: 50; background: #2A2A2E; color: #FFFFFF; border-top: 1px solid rgba(255,255,255,.08); box-shadow: 0 -12px 30px -12px rgba(0,0,0,.45); padding: 14px 40px; display: flex; flex-wrap: wrap; gap: 26px; align-items: center; justify-content: center">
+  <div class="stickybar" style="position: sticky; bottom: 0; z-index: 50; background: #2A2A2E; color: #FFFFFF; border-top: 1px solid rgba(255,255,255,.08); box-shadow: 0 -12px 30px -12px rgba(0,0,0,.45); padding: 14px 40px; display: flex; flex-wrap: wrap; gap: 26px; align-items: center; justify-content: center">
     <p style="margin: 0; font-size: 16px; color: #D6D3CF"><strong style="color: #FFFFFF">Broken down right now?</strong> Live dispatchers, 24 hours a day, no overtime charge.</p>
     <div style="display: flex; flex-wrap: wrap; gap: 10px">
       <a href="tel:+15165170005" class="call-breathe" style="--ring: {{ringColor}}; display: inline-flex; align-items: center; gap: 9px; padding: 15px 24px; border-radius: 4px; background: {{primary}}; color: #FFFFFF; font-weight: 700; font-size: 16px; text-decoration: none">
