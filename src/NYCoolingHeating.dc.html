@@ -22,6 +22,7 @@
       --ink-mid: #33333A;
       --ink-soft: #6B6B72;
       --tint-neutral: #EFEBE6;
+      --brand-accent: {{primaryOnLight}};
     }
     @media (prefers-color-scheme: dark) {
       :root:not([data-theme="light"]) {
@@ -34,6 +35,7 @@
         --ink-mid: #D4D1CD;
         --ink-soft: #A5A29E;
         --tint-neutral: #2B2B2F;
+        --brand-accent: {{primaryOnDark}};
       }
     }
     :root[data-theme="dark"] {
@@ -46,6 +48,7 @@
       --ink-mid: #D4D1CD;
       --ink-soft: #A5A29E;
       --tint-neutral: #2B2B2F;
+      --brand-accent: {{primaryOnDark}};
     }
     body { margin: 0; background: var(--page); font-family: 'Barlow', -apple-system, 'Helvetica Neue', Arial, sans-serif; }
     .pg { background: var(--page) !important; color: var(--ink) !important; }
@@ -89,6 +92,8 @@
       .dial-lbl-ok { opacity: 1; }
       .call-breathe { animation: none; box-shadow: 0 0 0 5px var(--ring); }
     }
+    /* The hamburger menu is phone-only; the full nav shows at desktop width. */
+    .mobnav { display: none; }
     /* Phone */
     @media (max-width: 860px) {
       .pg [style*="max-width: 1280px"] { padding-left: 16px !important; padding-right: 16px !important; }
@@ -101,8 +106,23 @@
       .pg h3 { font-size: 24px !important; }
       .pg [style*="font-size: 38px"] { font-size: 25px !important; }
       .pg [style*="letter-spacing: .34em"] { letter-spacing: .22em !important; }
-      .pg header > div > div { justify-content: center !important; }
-      .pg header > div > a { margin: 4px 0 !important; }
+      /* Status strip: one tight line — dispatcher note and phone only. */
+      .pg .statusbar > div { padding: 7px 16px !important; flex-wrap: nowrap !important; gap: 10px !important; font-size: 12.5px; }
+      .pg .statusbar .tail, .pg .statusbar a[href^="mailto:"] { display: none !important; }
+      .pg .statusbar strong, .pg .statusbar a { white-space: nowrap; }
+      .pg .statusbar a[href^="tel:"] { min-height: 30px !important; }
+      /* Masthead: logo on the left, menu button on the right, one row. */
+      .pg .mast { flex-wrap: nowrap !important; justify-content: space-between !important; gap: 12px !important; padding: 10px 16px !important; }
+      .pg .nav-l, .pg .nav-r { display: none !important; }
+      .pg .brand { text-align: left !important; }
+      .pg .mobnav { display: block; flex: none; }
+      .pg .mobnav > summary { list-style: none; display: flex; align-items: center; gap: 7px; min-height: 44px; padding: 0 13px; border: 1.5px solid var(--line); border-radius: 4px; font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); cursor: pointer; }
+      .pg .mobnav > summary::-webkit-details-marker { display: none; }
+      .pg .mobnav > summary svg { flex: none; width: 18px; height: 18px; }
+      .pg .mobnav[open] > summary { background: var(--surface-2); }
+      .pg .mobnav-panel { position: absolute; left: 0; right: 0; top: 100%; z-index: 40; display: flex !important; flex-direction: column; gap: 0 !important; background: var(--surface); border-bottom: 1px solid var(--line); box-shadow: 0 16px 32px rgba(0, 0, 0, .16); }
+      .pg .mobnav-panel a { display: block; min-height: 0; padding: 15px 16px !important; border-top: 1px solid var(--line); color: var(--ink); font-size: 16.5px; font-weight: 600; text-decoration: none; }
+      .pg .mobnav-panel a.mobnav-cta { color: var(--brand-accent); font-weight: 700; }
       .pg [style*="font-size: 52px"], .pg [style*="font-size: 44px"] { font-size: 32px !important; }
       .pg [style*="font-size: 21px"], .pg [style*="font-size: 20px"], .pg [style*="font-size: 19px"] { font-size: 17px !important; }
       .pg [style*="font-size: 136px"] { font-size: 38px !important; }
@@ -136,9 +156,20 @@
       .pg footer ul a { display: block; padding: 11px 0; }
       .pg [style*="margin-top: 14px; font-weight: 700"] { padding: 8px 0; }
       .pg [style*="gap: 64px"], .pg [style*="gap: 56px"] { gap: 36px !important; }
-      .pg header nav { justify-content: center !important; gap: 4px 20px !important; }
-      .pg header nav a { min-height: 44px; display: inline-flex; align-items: center; }
       .pg [style*="width: 124px"] { width: 96px !important; height: 96px !important; }
+    }
+    /* Narrow phones: the wordmark needs the room, so the menu button loses its label. */
+    @media (max-width: 400px) {
+      .pg .mobnav > summary span { display: none; }
+      .pg .mobnav > summary { padding: 0 12px; }
+      .pg .statusbar > div { font-size: 11.5px; }
+    }
+    /* Smallest phones still in use (320px): the wordmark comes down again. */
+    @media (max-width: 360px) {
+      .pg .brand [style*="font-size: 38px"] { font-size: 21px !important; }
+      .pg .brand [style*="letter-spacing: .34em"] { font-size: 11px !important; }
+      .pg .brand [style*="letter-spacing: .22em"] { font-size: 9px !important; }
+      .pg .mast { padding: 10px 12px !important; gap: 8px !important; }
     }
   </style>
 </helmet>
@@ -146,12 +177,12 @@
 <div class="pg" style="width: 100%; background: var(--page); color: var(--ink); font-size: 17px; line-height: 1.6">
 
   <!-- Status strip -->
-  <div style="background: {{dark}}; color: #B5B2AE; font-size: 13.5px; font-weight: 500; border-bottom: 1px solid rgba(255,255,255,.08)">
+  <div class="statusbar" style="background: {{dark}}; color: #B5B2AE; font-size: 13.5px; font-weight: 500; border-bottom: 1px solid rgba(255,255,255,.08)">
     <div style="max-width: 1280px; margin: 0 auto; padding: 10px 40px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between">
       <div style="display: flex; align-items: center; gap: 8px">
         <span style="width: 7px; height: 7px; border-radius: 50%; background: {{primary}}; display: inline-block" aria-hidden="true"></span>
         <strong style="color: #FFFFFF">Live dispatchers, 24 hours a day</strong>
-        <span>— no overtime, weekend or holiday charge</span>
+        <span class="tail">— no overtime, weekend or holiday charge</span>
       </div>
       <div style="display: flex; flex-wrap: wrap; gap: 20px"><a href="mailto:coolingheatingnewyork@gmail.com" style="text-decoration: none">coolingheatingnewyork@gmail.com</a>
         <a href="tel:+15165170005" style="text-decoration: none; color: #FFFFFF; font-weight: 600">{{phone}}</a>
@@ -160,19 +191,19 @@
   </div>
 
   <!-- Masthead -->
-  <header style="background: var(--surface); border-bottom: 1px solid var(--line)">
-    <div style="max-width: 1280px; margin: 0 auto; padding: 18px 40px; display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; justify-content: center">
-      <nav aria-label="Main" style="flex: 1 1 320px; display: flex; flex-wrap: wrap; gap: 28px; justify-content: flex-start; font-size: 15.5px; font-weight: 600; color: var(--ink)">
+  <header style="position: relative; background: var(--surface); border-bottom: 1px solid var(--line)">
+    <div class="mast" style="max-width: 1280px; margin: 0 auto; padding: 18px 40px; display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; justify-content: center">
+      <nav class="nav-l" aria-label="Main" style="flex: 1 1 320px; display: flex; flex-wrap: wrap; gap: 28px; justify-content: flex-start; font-size: 15.5px; font-weight: 600; color: var(--ink)">
         <a href="#services" style="text-decoration: none">Services</a>
         <a href="#buildings" style="text-decoration: none">PTAC &amp; buildings</a>
         <a href="#seasonal" style="text-decoration: none">Seasonal care</a>
       </nav>
-      <a href="#top" aria-label="New York Cooling and Heating Services — home" style="flex: none; display: block; text-align: center; text-decoration: none">
+      <a class="brand" href="#top" aria-label="New York Cooling and Heating Services — home" style="flex: none; display: block; text-align: center; text-decoration: none">
         <span style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: .34em; line-height: 1; text-transform: uppercase; color: {{primaryOnLight}}">New York</span>
         <span style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 38px; font-weight: 800; line-height: .92; text-transform: uppercase; color: var(--ink)">Cooling &amp; Heating</span>
         <span style="display: block; font-family: 'Barlow', sans-serif; font-size: 10.5px; font-weight: 600; letter-spacing: .22em; line-height: 1; text-transform: uppercase; color: var(--ink-soft)">Services · Five Boroughs</span>
       </a>
-      <div style="flex: 1 1 320px; display: flex; flex-wrap: wrap; gap: 28px; align-items: center; justify-content: flex-end; font-size: 15.5px; font-weight: 600; color: var(--ink)">
+      <div class="nav-r" style="flex: 1 1 320px; display: flex; flex-wrap: wrap; gap: 28px; align-items: center; justify-content: flex-end; font-size: 15.5px; font-weight: 600; color: var(--ink)">
         <nav aria-label="More" style="display: flex; flex-wrap: wrap; gap: 28px">
           <a href="#brands" style="text-decoration: none">Brands</a>
           <a href="#reviews" style="text-decoration: none">Reviews</a>
@@ -180,6 +211,21 @@
         </nav>
         <a href="#quote" style="display: inline-block; padding: 14px 20px; border: 1.5px solid var(--ink); border-radius: 4px; color: var(--ink); font-weight: 700; font-size: 15.5px; text-decoration: none">Get a free estimate</a>
       </div>
+      <details class="mobnav">
+        <summary aria-label="Menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+          <span>Menu</span>
+        </summary>
+        <nav class="mobnav-panel" aria-label="Site">
+          <a href="#services">Services</a>
+          <a href="#buildings">PTAC &amp; buildings</a>
+          <a href="#seasonal">Seasonal care</a>
+          <a href="#brands">Brands</a>
+          <a href="#reviews">Reviews</a>
+          <a href="#faq">FAQ</a>
+          <a href="#quote" class="mobnav-cta">Get a free estimate</a>
+        </nav>
+      </details>
     </div>
   </header>
 

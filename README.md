@@ -9,6 +9,7 @@ plumbing across the five boroughs.
 | --- | --- |
 | `index.html` | The site. One self-contained static page — no build step, no dependencies. |
 | `src/NYCoolingHeating.dc.html` | Design source. The artboard this page is generated from. |
+| `src/convert.py` | Regenerates `index.html` from the artboard. Python 3, no dependencies. |
 
 `index.html` is the only file a web server needs. It can be opened directly in a
 browser or dropped on any static host.
@@ -28,7 +29,11 @@ browser does not understand. It is kept here as the editable original.
 expanded to literal markup and the component logic rewritten as plain JavaScript.
 
 **Edit one or the other, not both.** If the artboard changes, regenerate the page
-rather than hand-editing it, or the two will drift apart.
+rather than hand-editing it, or the two will drift apart:
+
+```sh
+python3 src/convert.py src/NYCoolingHeating.dc.html index.html
+```
 
 ## Design notes
 
@@ -38,9 +43,12 @@ rather than hand-editing it, or the two will drift apart.
 - **Dark mode.** Colours are CSS custom properties on `:root`, overridden under
   `prefers-color-scheme: dark` and under `[data-theme="dark"]`. Sections that are
   dark by design stay dark in both themes.
-- **Responsive.** Single breakpoint at 860px: multi-column grids collapse to one
-  column, display type scales down, the page gutter drops to 16px and the
-  comparison table scrolls horizontally rather than squashing.
+- **Responsive.** Breakpoints at 860px, 400px and 360px. At 860px multi-column
+  grids collapse to one column, display type scales down, the page gutter drops
+  to 16px, the comparison table restacks as cards, and the header becomes a
+  wordmark with a disclosure menu beside it. The two narrower breakpoints shrink
+  the menu button to its icon and then the wordmark, so the header stays on one
+  row down to 320px.
 - **Accessibility.** Real `<button>`, `<a>` and `<label>` elements throughout, the
   comparison is a proper `<table>` with scoped headers, icon-only controls carry
   `aria-label`, and animation is disabled under `prefers-reduced-motion`.
