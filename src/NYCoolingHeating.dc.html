@@ -174,7 +174,15 @@
       .pg footer ul a { display: block; padding: 11px 0; }
       .pg [style*="margin-top: 14px; font-weight: 700"] { padding: 8px 0; }
       .pg [style*="gap: 64px"], .pg [style*="gap: 56px"] { gap: 36px !important; }
-      .pg [style*="width: 124px"] { width: 96px !important; height: 96px !important; }
+      /* Booking panel: dial and heading stay side by side rather than leaving a
+         band of empty space beside a small graphic. */
+      .pg .dial, .pg .dial svg { width: 88px !important; height: 88px !important; }
+      .pg .dial .dial-temp { font-size: 26px !important; }
+      .pg .dial .dial-lblwrap { width: 60px !important; height: 11px !important; font-size: 8.5px !important; line-height: 11px !important; }
+      .pg #quote > div:first-child { padding: 22px 20px !important; gap: 16px !important; flex-wrap: nowrap !important; }
+      .pg #quote > div:first-child > div:last-child { flex: 1 1 0 !important; }
+      .pg #quote h3 { font-size: 21px !important; }
+      .pg #quote > div:first-child p { font-size: 14px !important; }
     }
     /* Narrow phones: the status strip tightens too. */
     @media (max-width: 400px) {
@@ -205,7 +213,7 @@
 
   <!-- Masthead -->
   <header style="position: relative; background: var(--surface); border-bottom: 1px solid var(--line)">
-    <div class="mast" style="max-width: 1280px; margin: 0 auto; padding: 18px 40px; display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; justify-content: center">
+    <div class="mast" style="max-width: 1280px; margin: 0 auto; padding: 50px 40px; display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: center; justify-content: center">
       <nav class="nav-l" aria-label="Main" style="flex: 1 1 320px; display: flex; flex-wrap: wrap; gap: 28px; justify-content: flex-start; font-size: 15.5px; font-weight: 600; color: var(--ink)">
         <a href="#services" style="text-decoration: none">Services</a>
         <a href="#buildings" style="text-decoration: none">PTAC &amp; buildings</a>
@@ -216,8 +224,8 @@
         <span style="display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 38px; font-weight: 800; line-height: .92; text-transform: uppercase; color: var(--ink)">Cooling &amp; Heating</span>
         <span style="display: block; font-family: 'Barlow', sans-serif; font-size: 10.5px; font-weight: 600; letter-spacing: .22em; line-height: 1; text-transform: uppercase; color: var(--ink-soft)">Services · Five Boroughs</span>
       </a>
-      <div class="nav-r" style="flex: 1 1 320px; display: flex; flex-wrap: wrap; gap: 28px; align-items: center; justify-content: flex-end; font-size: 15.5px; font-weight: 600; color: var(--ink)">
-        <nav aria-label="More" style="display: flex; flex-wrap: wrap; gap: 28px">
+      <div class="nav-r" style="flex: 1 1 320px; display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: flex-end; font-size: 15.5px; font-weight: 600; color: var(--ink)">
+        <nav aria-label="More" style="display: flex; flex-wrap: wrap; gap: 24px">
           <a href="#brands" style="text-decoration: none">Brands</a>
           <a href="#reviews" style="text-decoration: none">Reviews</a>
           <a href="#faq" style="text-decoration: none">FAQ</a>
@@ -288,9 +296,9 @@
 
       <!-- Booking panel -->
       <div id="quote" style="flex: 1 1 440px; min-width: 0; border-radius: 6px; overflow: hidden; box-shadow: 0 40px 90px -40px rgba(0,0,0,.85)">
-        <div style="background: #2A2A2E; padding: 30px 32px; display: flex; flex-wrap: wrap; gap: 24px; align-items: center">
-          <div style="position: relative; width: 124px; height: 124px; flex: none">
-            <svg viewBox="0 0 200 200" aria-hidden="true" style="width: 124px; height: 124px; transform: rotate(135deg)">
+        <div style="background: #2A2A2E; padding: 34px 32px; display: flex; flex-wrap: wrap; gap: 26px; align-items: center">
+          <div class="dial" style="position: relative; width: 142px; height: 142px; flex: none">
+            <svg viewBox="0 0 200 200" aria-hidden="true" style="width: 142px; height: 142px; transform: rotate(135deg)">
               <circle cx="100" cy="100" r="86" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="9" stroke-linecap="round" stroke-dasharray="405.3 540.4"></circle>
               <circle cx="100" cy="100" r="86" fill="none" stroke="{{secondary}}" stroke-width="9" stroke-linecap="round" stroke-dasharray="190 540.4"></circle>
               <circle cx="100" cy="100" r="86" fill="none" stroke="{{primary}}" stroke-width="9" stroke-linecap="round" stroke-dasharray="190 540.4" stroke-dashoffset="-215"></circle>
@@ -299,8 +307,8 @@
               <span style="position: absolute; top: 1px; left: 50%; width: 15px; height: 15px; margin-left: -7.5px; box-sizing: border-box; border-radius: 50%; background: #FFFFFF; border: 3px solid #2A2A2E; box-shadow: 0 0 0 2px rgba(255,255,255,.35), 0 0 14px 2px rgba(255,255,255,.45)"></span>
             </div>
             <div role="img" aria-label="Thermostat settling at 70 degrees" style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px">
-              <b class="dial-temp" style="font-family: 'Barlow Condensed', sans-serif; color: #FFFFFF; font-size: 38px; font-weight: 800; line-height: 1"></b>
-              <span style="position: relative; display: block; width: 76px; height: 13px; font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; line-height: 13px">
+              <b class="dial-temp" style="font-family: 'Barlow Condensed', sans-serif; color: #FFFFFF; font-size: 44px; font-weight: 800; line-height: 1"></b>
+              <span class="dial-lblwrap" style="position: relative; display: block; width: 76px; height: 13px; font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; line-height: 13px">
                 <span class="dial-lbl dial-lbl-cold" style="color: {{secondaryOnDark}}">Too cold</span>
                 <span class="dial-lbl dial-lbl-hot" style="color: {{primaryOnDark}}">Too hot</span>
                 <span class="dial-lbl dial-lbl-ok" style="color: #FFFFFF">Handled</span>
@@ -308,7 +316,7 @@
             </div>
           </div>
           <div style="flex: 1 1 200px; min-width: 0">
-            <h3 style="margin: 0; color: #FFFFFF; font-size: 28px; font-weight: 700; line-height: 1.05; text-transform: uppercase">Tell us what's going on.</h3>
+            <h3 style="margin: 0; color: #FFFFFF; font-size: 24px; font-weight: 700; line-height: 1.08; text-transform: uppercase">Tell us what's going on.</h3>
             <p style="margin: 8px 0 0; color: #B5B2AE; font-size: 15px; line-height: 1.5">Thirty seconds here. A dispatcher calls you back to confirm a time — free quote, no obligation.</p>
           </div>
         </div>
@@ -709,15 +717,15 @@
       <div style="border: 1px solid var(--line); border-radius: 6px; padding: 44px">
         <h3 style="margin: 0; font-size: 46px; font-weight: 800; line-height: .95; text-transform: uppercase">Where we work.</h3>
         <p style="margin: 16px 0 0; color: var(--ink-soft); font-size: 17px">Emergency service runs 24 hours a day, every day. Not sure if we cover your block? Call and ask.</p>
-        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; margin-top: 24px">
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 30px; margin-top: 24px">
           <a href="#quote" style="padding: 18px 0; border-top: 1px solid var(--line); font-weight: 600; text-decoration: none; display: flex; justify-content: space-between; gap: 12px">Manhattan <span aria-hidden="true" style="color: {{primaryOnLight}}">→</span></a>
-          <a href="#quote" style="padding: 18px 0 18px 24px; border-top: 1px solid var(--line); font-weight: 600; text-decoration: none; display: flex; justify-content: space-between; gap: 12px">Brooklyn <span aria-hidden="true" style="color: {{primaryOnLight}}">→</span></a>
+          <a href="#quote" style="padding: 18px 0; border-top: 1px solid var(--line); font-weight: 600; text-decoration: none; display: flex; justify-content: space-between; gap: 12px">Brooklyn <span aria-hidden="true" style="color: {{primaryOnLight}}">→</span></a>
           <a href="#quote" style="padding: 18px 0; border-top: 1px solid var(--line); font-weight: 600; text-decoration: none; display: flex; justify-content: space-between; gap: 12px">Queens <span aria-hidden="true" style="color: {{primaryOnLight}}">→</span></a>
-          <a href="#quote" style="padding: 18px 0 18px 24px; border-top: 1px solid var(--line); font-weight: 600; text-decoration: none; display: flex; justify-content: space-between; gap: 12px">The Bronx <span aria-hidden="true" style="color: {{primaryOnLight}}">→</span></a>
+          <a href="#quote" style="padding: 18px 0; border-top: 1px solid var(--line); font-weight: 600; text-decoration: none; display: flex; justify-content: space-between; gap: 12px">The Bronx <span aria-hidden="true" style="color: {{primaryOnLight}}">→</span></a>
           <a href="#quote" style="padding: 18px 0; border-top: 1px solid var(--line); font-weight: 600; text-decoration: none; display: flex; justify-content: space-between; gap: 12px">Staten Island <span aria-hidden="true" style="color: {{primaryOnLight}}">→</span></a>
-          <a href="#quote" style="padding: 18px 0 18px 24px; border-top: 1px solid var(--line); font-weight: 600; text-decoration: none; display: flex; justify-content: space-between; gap: 12px">Long Island <span aria-hidden="true" style="color: {{primaryOnLight}}">→</span></a>
+          <a href="#quote" style="padding: 18px 0; border-top: 1px solid var(--line); font-weight: 600; text-decoration: none; display: flex; justify-content: space-between; gap: 12px">Long Island <span aria-hidden="true" style="color: {{primaryOnLight}}">→</span></a>
           <a href="#quote" style="padding: 18px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-weight: 600; text-decoration: none; display: flex; justify-content: space-between; gap: 12px">Nassau &amp; Suffolk <span aria-hidden="true" style="color: {{primaryOnLight}}">→</span></a>
-          <a href="#quote" style="padding: 18px 0 18px 24px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-weight: 600; text-decoration: none; display: flex; justify-content: space-between; gap: 12px">Westchester &amp; NJ <span aria-hidden="true" style="color: {{primaryOnLight}}">→</span></a>
+          <a href="#quote" style="padding: 18px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-weight: 600; text-decoration: none; display: flex; justify-content: space-between; gap: 12px">Westchester &amp; NJ <span aria-hidden="true" style="color: {{primaryOnLight}}">→</span></a>
         </div>
       </div>
     </div>
